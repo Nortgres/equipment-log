@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class RlogConfig(AppConfig):
+class EqlogConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'rlog'
+    name = 'eqlog'
