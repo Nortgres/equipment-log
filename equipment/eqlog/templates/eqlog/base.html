@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+</head>
+<body>
+    {% block mainmenu %}
+    <div class="header">
+    <ul id="mainmenu" class="mainmenu">
+        <li class="logo">
+            <a href="{% url 'home' %}"><div class="logo"></div></a>
+        </li>
+
+        {% for m in menu %}
+            <li>{{ m.title }} </li>
+        {% endfor %}
+
+        <li class="last">
+            {% if request.user.is_authenticated %}
+                <li class="last"> {{user.username}} | <a href="{% url 'logout' %}">Выйти</a> </li>
+            {% else %}
+                <li class="last"><a href="{% url 'login' %}">Войти</a> </li>
+            {% endif %}
+        </li>
+    </ul>
+    </div>
+
+    {% endblock mainmenu %}
+    {% block content %}
+    {% endblock content %}
+</body>
+</html>
