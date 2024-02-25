@@ -19,7 +19,17 @@ def persons(request):
 
 def equipments(request):
     return HttpResponse("Оборудование")
-class EqlogHome(DataMixin, ListView):
+
+def show_person(request, pers_slug):
+    student = get_object_or_404(Student, slug=pers_slug)
+
+    context = {
+        'ps': person,
+        'menu': menu,
+    }
+    return render(request, 'eqlog/person.html', context=context)
+
+class PersonHome(DataMixin, ListView):
     model = Person
     template_name = 'eqlog/index.html'
     context_object_name = 'persons'
@@ -27,12 +37,19 @@ class EqlogHome(DataMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        auth = self.request.user.is_authenticated
-        queryset = self.get_queryset()
-        p_filter = PersonFilter(self.request.GET, queryset)
-        c_def = self.get_user_context(title='Главная страница', auth=auth, eq_filter=p_filter)
-        return {**context, **c_def}
-
+        context['title'] = 'Главная страница'
+        context['menu'] = menu
+        return context
+        #auth = self.request.user.is_authenticated
+        #queryset = self.get_queryset()
+        #ps_filter = PersonFilter(self.request.GET, queryset)
+        #c_def = self.get_user_context(title='Главная страница', auth=auth, eq_filter=ps_filter)
+        #return {**context, **c_def}
+    def get_queryset(self):
+        return Person.objects.filter(is_working=True)
+        #queryset = super().get_queryset()
+        #ps_filter = PersonFilter(self.request.GET, queryset)
+        #return ps_filter.qs
 
 class LoginUser(DataMixin, LoginView):
     form_class = LoginUserForm
@@ -44,6 +61,18 @@ class LoginUser(DataMixin, LoginView):
         return {**context, **c_def}
     def get_success_url(self):
         return reverse_lazy('home')
+
+class ShowPerson(DataMixin, DetailView):
+    model = Person
+    template_name = 'eqlog/person.html'
+    slug_url_kwarg = 'pers_slug'
+    context_object_name = 'ps'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        auth = self.request.user.is_authenticated
+        c_def = self.get_user_context(title='Главная страница', auth=auth)
+        return {**context, **c_def}
 
 def logout_user(request):
     logout(request)

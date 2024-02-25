@@ -1,5 +1,8 @@
 from datetime import date
+from django.contrib.auth.models import User
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
+from django.urls import reverse
 
 
 class Equipment(models.Model):
@@ -20,8 +23,8 @@ class Equipment(models.Model):
     def __str__(self):
         return self.model
 
-    #    def get_absolute_url(self):
-    #        return reverse('student', kwargs={'stud_slug': self.slug})
+    def get_absolute_url(self):
+        return reverse('equipment', kwargs={'eq_slug': self.slug})
 
     class Meta:
         verbose_name = 'Оборудование'
@@ -47,6 +50,9 @@ class Person(models.Model):
     @property
     def fio(self):
         return f'{self.last_name} {self.first_name} {self.middle_name}'
+
+    def get_absolute_url(self):
+        return reverse('person', kwargs={'pers_slug': self.slug})
 
     class Meta:
         verbose_name = 'Сотрудник'

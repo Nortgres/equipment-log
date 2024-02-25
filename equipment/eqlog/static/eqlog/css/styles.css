@@ -16,12 +16,12 @@ a:hover {
 }
 
 .header {
-	background: #3F4137;
+	background: #000000;
 	height: 60px;
 }
 
 .logo {
-	background: url('../images/logo_home.png') no-repeat 10px 5px;
+	background: url('../images/logo_home.png') no-repeat 0px 0px;
 	width: 70px;
 	height: 60px;
 }
@@ -30,7 +30,7 @@ ul.mainmenu {
 	margin: 0;
 	padding: 0;
 	height: 60px;
-	color: #fdc073;
+	color: #ffca86;
 	font-size: 20px;
 	overflow: hidden;
 }
