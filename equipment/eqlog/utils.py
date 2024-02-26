@@ -1,7 +1,7 @@
 menu = [{'title': "О сайте", 'url_name': 'about'},
         {'title': "Оборудование", 'url_name': 'equipments'},
         {'title': "Сотрудники", 'url_name': 'persons'},
-        {'title': "Журнал", 'url_name': 'eqlog'},
+        #{'title': "Журнал", 'url_name': 'eqlog'},
         ]
 
 class DataMixin:
