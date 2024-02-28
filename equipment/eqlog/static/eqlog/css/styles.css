@@ -16,12 +16,14 @@ a:hover {
 }
 
 .header {
-	background: #000000;
+	background: #0c2434;
 	height: 60px;
 }
 
 .logo {
 	background: url('../images/logo_home.png') no-repeat 0px 0px;
+	background-size: contain;
+	background-position: center;
 	width: 70px;
 	height: 60px;
 }
@@ -42,7 +44,7 @@ ul.mainmenu li.logo {margin: 0;}
 ul.mainmenu li.last {float: right;}
 
 ul.mainmenu li a {
-	color: #fdc073;
+	color: #fab13a;
 	text-decoration: none;
 }
 ul.mainmenu li a:hover {
