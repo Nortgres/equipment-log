@@ -3,7 +3,7 @@
 {% block content %}
     <h1>{{ title }}</h1>
         <form method="get" action="{% url 'home' %}">
-            {{ p_filter.form.as_p }}
+            {{ ps_filter.form.as_p }}
             <button type="submit">Искать</button>
         </form>
         <ul>

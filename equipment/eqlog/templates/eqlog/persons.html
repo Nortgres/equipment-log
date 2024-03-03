@@ -1,0 +1,23 @@
+{% extends 'eqlog/base.html' %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+        <form method="get" action="{% url 'home' %}">
+            {{ ps_filter.form.as_p }}
+            <button type="submit">Искать</button>
+        </form>
+        <ul>
+        {% for p in persons %}
+            <li>
+                <a href="{{ p.get_absolute_url }}">
+                    {{ p.first_name }}
+                    {{ p.middle_name }}
+                    {{ p.last_name }}
+                    - Отдел: {{ p.department }}
+                    - должность: {{ p.job_title }}
+                </a>
+            </li>
+        {% endfor %}
+        </ul>
+        <p> Всего сотрудников: {{ persons | length }}</p>
+{% endblock %}
