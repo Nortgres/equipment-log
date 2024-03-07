@@ -14,9 +14,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 def about(request):
     return render(request, 'eqlog/about.html', {'menu': menu, 'title': 'О сайте'})
 
-def persons(request):
-    return HttpResponse("Сотрудники")
-
 def equipments(request):
     return HttpResponse("Оборудование")
 
@@ -31,7 +28,7 @@ def show_person(request, pers_slug):
 
 class PersonHome(DataMixin, ListView):
     model = Person
-    template_name = 'eqlog/index.html'
+    template_name = 'eqlog/persons.html'
     context_object_name = 'persons'
     paginate_by = 20
 
@@ -46,7 +43,7 @@ class PersonHome(DataMixin, ListView):
         c_def = self.get_user_context(title='Главная страница', auth=auth, eq_filter=ps_filter)
         return {**context, **c_def}
     def get_queryset(self):
-        #return Person.objects.filter(is_working=True)
+        #return Person.objects.filter(remote=True)
         queryset = super().get_queryset()
         ps_filter = PersonFilter(self.request.GET, queryset)
         return ps_filter.qs

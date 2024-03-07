@@ -2,7 +2,7 @@
 
 {% block content %}
     <h1>{{ title }}</h1>
-        <form method="get" action="{% url 'home' %}">
+        <form method="get" action="{% url 'persons' %}">
             {{ ps_filter.form.as_p }}
             <button type="submit">Искать</button>
         </form>
@@ -15,6 +15,7 @@
                     {{ p.last_name }}
                     - Отдел: {{ p.department }}
                     - должность: {{ p.job_title }}
+
                 </a>
             </li>
         {% endfor %}
