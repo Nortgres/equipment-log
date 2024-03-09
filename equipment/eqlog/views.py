@@ -5,8 +5,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
-from .filters import PersonFilter
-from .forms import LoginUserForm
+from .filters import PersonFilter, EquipmentFilter
+from .forms import LoginUserForm, FilterPersonForm
 from .models import Equipment, Person
 from .utils import menu, DataMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -34,16 +34,12 @@ class PersonHome(DataMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        #context['title'] = 'Главная страница'
-        #context['menu'] = menu
-        #return context
         auth = self.request.user.is_authenticated
         queryset = self.get_queryset()
         ps_filter = PersonFilter(self.request.GET, queryset)
-        c_def = self.get_user_context(title='Главная страница', auth=auth, eq_filter=ps_filter)
+        c_def = self.get_user_context(title='Сотрудники', auth=auth, ps_filter=ps_filter)
         return {**context, **c_def}
     def get_queryset(self):
-        #return Person.objects.filter(remote=True)
         queryset = super().get_queryset()
         ps_filter = PersonFilter(self.request.GET, queryset)
         return ps_filter.qs
@@ -71,6 +67,26 @@ class ShowPerson(DataMixin, DetailView):
         c_def = self.get_user_context(title='Главная страница', auth=auth)
         return {**context, **c_def}
 
+
 def logout_user(request):
     logout(request)
     return redirect('login')
+
+
+class Equipments(DataMixin, ListView):
+    model = Equipment
+    template_name = 'eqlog/equipments.html'
+    context_object_name = 'equipments'
+    paginate_by = 20
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        auth = self.request.user.is_authenticated
+        queryset = self.get_queryset()
+        eq_filter = EquipmentFilter(self.request.GET, queryset)
+        c_def = self.get_user_context(title='Оборудование', auth=auth, eq_filter=eq_filter)
+        return {**context, **c_def}
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        eq_filter = EquipmentFilter(self.request.GET, queryset)
+        return eq_filter.qs

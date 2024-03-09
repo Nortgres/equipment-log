@@ -1,10 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'eqlog/base.html' %}
 
-</body>
-</html>
+{% block content %}
+    <h1>{{ title }}</h1>
+        <form method="get" action="{% url 'equipments' %}">
+            {{ eq_filter.form.as_p }}
+            <button type="submit">Искать</button>
+        </form>
+        <ul>
+        {% for e in equipments %}
+            <li>
+                <a href="{{ eq.get_absolute_url }}">
+                    {{ e.type }}
+                    {{ e.model }}
+                    - Серийный номер: {{ e.serial_number }}
+                    - Инвентарный номер: {{ e.id_number }}
+                    - Работает: {{ e.is_working }}
+                    - Доступно для тестирования: {{ e.testing }}
+
+                </a>
+            </li>
+        {% endfor %}
+        </ul>
+        <p> Всего оборудования: {{ equipments | length }}</p>
+{% endblock %}
