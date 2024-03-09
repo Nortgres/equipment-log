@@ -9,14 +9,13 @@
         <ul>
         {% for e in equipments %}
             <li>
-                <a href="{{ eq.get_absolute_url }}">
+                <a href="{{ e.get_absolute_url }}">
                     {{ e.type }}
                     {{ e.model }}
                     - Серийный номер: {{ e.serial_number }}
                     - Инвентарный номер: {{ e.id_number }}
                     - Работает: {{ e.is_working }}
                     - Доступно для тестирования: {{ e.testing }}
-
                 </a>
             </li>
         {% endfor %}

@@ -1,0 +1,16 @@
+{% extends 'eqlog/base.html' %}
+
+{% block content %}
+<h1>{{ eq.type }} {{ eq.model }}</h1>
+<p>Инвентарный номер: {{ eq.id_number }}</p>
+<p>Запись добавлена: {{ eq.created_at | date:"d E Y" }}</p>
+<p>Дата покупки: {{ eq.sale_date | date:"d E Y"  }}</p>
+<p>Цена покупки: {{ eq.price }}</p>
+<p>Работает: {{ eq.testing }}</p>
+<p>Доступно для тестирования: {{ eq.testing }}</p>
+<p>Серийный номер: {{ eq.serial_number }}</p>
+<p>Описание: {{ eq.description }}</p>
+
+</p>
+<br>
+{% endblock %}

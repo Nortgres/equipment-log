@@ -11,11 +11,10 @@ from .models import Equipment, Person
 from .utils import menu, DataMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+
 def about(request):
     return render(request, 'eqlog/about.html', {'menu': menu, 'title': 'О сайте'})
 
-def equipments(request):
-    return HttpResponse("Оборудование")
 
 def show_person(request, pers_slug):
     person = get_object_or_404(Person, slug=pers_slug)
@@ -25,6 +24,17 @@ def show_person(request, pers_slug):
         'menu': menu,
     }
     return render(request, 'eqlog/person.html', context=context)
+
+
+def show_equipment(request, equip_slug):
+    equipment = get_object_or_404(Equipment, slug=equip_slug)
+
+    context = {
+        'eq': equipment,
+        'menu': menu,
+    }
+    return render(request, 'eqlog/equipment.html', context=context)
+
 
 class PersonHome(DataMixin, ListView):
     model = Person
@@ -67,7 +77,6 @@ class ShowPerson(DataMixin, DetailView):
         c_def = self.get_user_context(title='Главная страница', auth=auth)
         return {**context, **c_def}
 
-
 def logout_user(request):
     logout(request)
     return redirect('login')
@@ -90,3 +99,15 @@ class Equipments(DataMixin, ListView):
         queryset = super().get_queryset()
         eq_filter = EquipmentFilter(self.request.GET, queryset)
         return eq_filter.qs
+
+class ShowEquipment(DataMixin, DetailView):
+    model = Equipment
+    template_name = 'eqlog/equipment.html'
+    slug_url_kwarg = 'equip_slug'
+    context_object_name = 'eq'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        auth = self.request.user.is_authenticated
+        c_def = self.get_user_context(title='Главная страница', auth=auth)
+        return {**context, **c_def}

@@ -24,7 +24,7 @@ class Equipment(models.Model):
         return self.model
 
     def get_absolute_url(self):
-        return reverse('equipment', kwargs={'eq_slug': self.slug})
+        return reverse('equipment', kwargs={'equip_slug': self.slug})
 
     class Meta:
         verbose_name = 'Оборудование'
