@@ -45,8 +45,8 @@ def addperson(request):
     if request.method == 'POST':
         form = AddPersonForm(request.POST, request.FILES)
         if form.is_valid():
-                    form.save()
-                    return redirect('home')
+            form.save()
+            return redirect('persons')
     else:
         form = AddPersonForm()
     return render(request, 'eqlog/addperson.html', {'form': form})
@@ -77,6 +77,12 @@ class AddPerson(LoginRequiredMixin, CreateView):
     template_name = 'eqlog/addperson.html'
     success_url = reverse_lazy('home')
     login_url = reverse_lazy('home')
+
+    #def get_context_data(self, *, object_list=None, **kwargs):
+    #    context = super().get_context_data(**kwargs)
+    #    auth = self.request.user.is_authenticated
+    #    c_def = self.get_user_context(title='Главная страница', auth=auth)
+    #    return {**context, **c_def}
 
 
 class LoginUser(DataMixin, LoginView):

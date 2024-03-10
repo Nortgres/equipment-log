@@ -1,6 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth.models import User
+from django.contrib.auth.forms import AuthenticationForm
 from django.core.exceptions import ValidationError
 
 from eqlog.models import Person, Equipment
@@ -21,11 +20,12 @@ class AddPersonForm(forms.ModelForm):
     #    super().__init__(*args, **kwargs)
     #    self.fields['group'].empty_label = 'Не выбрана'
 
-    #def clean_first_name(self):
-    #    first_name = self.cleaned_data['first_name']
-    #    if not first_name.isalpha():
-    #        raise ValidationError('Недопустимые символы')
-    #    return first_name
+    def clean_first_name(self):
+        first_name = self.cleaned_data['first_name']
+        if not first_name.isalpha():
+            raise ValidationError('Недопустимые символы')
+        return first_name
+
     class Meta:
         model = Person
         fields = '__all__'

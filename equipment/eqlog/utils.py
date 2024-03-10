@@ -1,8 +1,8 @@
-menu = [{'title': "О сайте", 'url_name': 'about'},
-        {'title': "Оборудование", 'url_name': 'equipments'},
+menu = [{'title': "Оборудование", 'url_name': 'equipments'},
         {'title': "Сотрудники", 'url_name': 'persons'},
         #{'title': "Журнал", 'url_name': 'eqlog'},
-        #{'title': ""}
+        {'title': "Добавить сотрудника", 'url_name': 'addperson'},
+        {'title': "О сайте", 'url_name': 'about'},
         ]
 
 class DataMixin:
