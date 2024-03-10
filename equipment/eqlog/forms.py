@@ -28,6 +28,6 @@ class AddPersonForm(forms.ModelForm):
 
     class Meta:
         model = Person
-        fields = '__all__'
-        #fields = ['last_name', 'first_name', 'middle_name', 'department', 'job_title', 'jobing_at', 'remote', 'city', 'slug']
+        #fields = '__all__'
+        fields = ['last_name', 'first_name', 'middle_name', 'department', 'job_title', 'jobing_at', 'remote', 'city', 'slug']
 
