@@ -29,16 +29,7 @@
                 <td>{{ e.is_working }}</td>
                 <td>{{ e.testing }}</td>
             </tr>
+        {% endfor %}
     </table>
-        <ul>
-            <a href="{{ e.get_absolute_url }}">
-                {{ e.type }}
-                {{ e.model }}</a>
-                - Серийный номер: {{ e.serial_number }}
-                - Инвентарный номер: {{ e.id_number }}
-                - Работает: {{ e.is_working }}
-                - Доступно для тестирования: {{ e.testing }}
-            {% endfor %}
-        </ul>
 <p> Всего оборудования: {{ equipments | length }}</p>
 {% endblock %}
