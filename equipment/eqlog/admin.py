@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Person, Equipment
+from .models import Person, Equipment, Department
 
 @admin.register(Person)
 class PersonAdmin(admin.ModelAdmin):
@@ -19,3 +19,9 @@ class EquipmentAdmin(admin.ModelAdmin):
     search_fields = ('type', 'id_number')
     list_filter = ('is_working', 'sale_date', 'type', 'id_number',)
     prepopulated_fields = {"slug": ("id_number", )}
+
+
+@admin.register(Department)
+class DepartmentAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name')
+    list_display_links = ('id', 'name')

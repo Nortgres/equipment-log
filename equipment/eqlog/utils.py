@@ -1,7 +1,8 @@
-menu = [{'title': "Оборудование", 'url_name': 'equipments'},
+menu = [
         {'title': "Сотрудники", 'url_name': 'persons'},
-        #{'title': "Журнал", 'url_name': 'eqlog'},
-        {'title': "Добавить сотрудника", 'url_name': 'addperson'},
+        #{'title': "Добавить сотрудника", 'url_name': 'addperson'},
+        {'title': "Оборудование", 'url_name': 'equipments'},
+        # {'title': "Журнал", 'url_name': 'eqlog'},
         {'title': "О сайте", 'url_name': 'about'},
         ]
 

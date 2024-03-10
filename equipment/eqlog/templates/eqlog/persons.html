@@ -1,7 +1,10 @@
 {% extends 'eqlog/base.html' %}
 
 {% block content %}
-    <h1>{{ title }}</h1>
+    <h1>{{ title.upper }}</h1>
+    {% if auth %}
+        <p><a href="{% url 'addperson' %}">ДОБАВИТЬ СОТРУДНИКА</a> </p>
+        <p>Поиск сотрудника: </p>
         <form method="get" action="{% url 'persons' %}">
             {{ ps_filter.form.as_p }}
             <button type="submit">Искать</button>
@@ -46,8 +49,6 @@
              </ul>
         </nav>
         {% endif %}
+    {% endif %}
 
-        {% if auth %}
-            <p><a href="{% url 'addperson' %}">Добавить сотрудника</a> </p>
-        {% endif %}
 {% endblock %}

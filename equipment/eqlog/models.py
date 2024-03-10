@@ -36,7 +36,7 @@ class Person(models.Model):
     last_name = models.CharField(verbose_name='Фамилия', max_length=50)
     first_name = models.CharField(verbose_name='Имя', max_length=50)
     middle_name = models.CharField(verbose_name='Отчество', max_length=50)
-    department = models.CharField(verbose_name='Отдел', max_length=50)
+    department = models.ForeignKey('Department', on_delete=models.CASCADE, verbose_name='Отдел', related_name='get_persons')
     job_title = models.CharField(verbose_name='Должность', max_length=50)
     jobing_at = models.DateField(verbose_name='Дата трудоустройства', default=date(2020, 1, 1))
     created_at = models.DateTimeField(verbose_name='Дата создания', auto_now_add=True)
@@ -61,3 +61,14 @@ class Person(models.Model):
 
     def __str__(self):
         return self.fio
+
+class Department(models.Model):
+    name = models.CharField(verbose_name='Отдел', max_length=50)
+    objects = models.Manager()
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Отдел'
+        verbose_name_plural = 'Отделы'

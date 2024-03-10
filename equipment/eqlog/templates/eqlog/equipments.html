@@ -6,19 +6,39 @@
             {{ eq_filter.form.as_p }}
             <button type="submit">Искать</button>
         </form>
-        <ul>
+    <table border="1">
+        <caption>Полная таблица оборудования</caption>
+        <tr>
+            <th>Тип</th>
+            <th>Модель</th>
+            <th>Серийный номер</th>
+            <th>Инвентарный номер</th>
+            <th>Дата покупки</th>
+            <th>Цена покупки</th>
+            <th>Рабочее</th>
+            <th>Доступно для тестирования</th>
+       </tr>
         {% for e in equipments %}
-            <li>
-                <a href="{{ e.get_absolute_url }}">
-                    {{ e.type }}
-                    {{ e.model }}
-                    - Серийный номер: {{ e.serial_number }}
-                    - Инвентарный номер: {{ e.id_number }}
-                    - Работает: {{ e.is_working }}
-                    - Доступно для тестирования: {{ e.testing }}
-                </a>
-            </li>
-        {% endfor %}
+            <tr>
+                <td>{{ e.type }}</td>
+                <td><a href="{{ e.get_absolute_url }}"> {{ e.model }}</a></td>
+                <td>{{ e.serial_number }}</td>
+                <td>{{ e.id_number }}</td>
+                <td>{{ e.sale_date }}</td>
+                <td>{{ e.price }}</td>
+                <td>{{ e.is_working }}</td>
+                <td>{{ e.testing }}</td>
+            </tr>
+    </table>
+        <ul>
+            <a href="{{ e.get_absolute_url }}">
+                {{ e.type }}
+                {{ e.model }}</a>
+                - Серийный номер: {{ e.serial_number }}
+                - Инвентарный номер: {{ e.id_number }}
+                - Работает: {{ e.is_working }}
+                - Доступно для тестирования: {{ e.testing }}
+            {% endfor %}
         </ul>
-        <p> Всего оборудования: {{ equipments | length }}</p>
+<p> Всего оборудования: {{ equipments | length }}</p>
 {% endblock %}
