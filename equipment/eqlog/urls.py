@@ -2,10 +2,10 @@ from django.contrib import admin
 from django.urls import path
 
 from .views import about, login, logout, PersonHome, LoginUser, logout_user, ShowPerson, Equipments, \
-    ShowEquipment, AddPerson
+    ShowEquipment, AddPerson, home
 
 urlpatterns = [
-    path('', PersonHome.as_view(), name='home'),
+    path('', home, name='home'),
     path('about/', about, name='about'),
     path('persons/', PersonHome.as_view(), name='persons'),
     path('person/<slug:pers_slug>/', ShowPerson.as_view(), name='person'),

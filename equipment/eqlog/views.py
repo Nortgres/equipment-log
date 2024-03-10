@@ -15,6 +15,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 def about(request):
     return render(request, 'eqlog/about.html', {'menu': menu, 'title': 'О сайте'})
 
+def home(request):
+    return render(request, 'eqlog/index.html', {'menu': menu, 'title': 'Главная страница'})
 
 def show_person(request, pers_slug):
     person = get_object_or_404(Person, slug=pers_slug)
