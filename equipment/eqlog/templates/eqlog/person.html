@@ -2,7 +2,7 @@
 
 {% block content %}
 <h1>{{ ps.last_name }} {{ ps.first_name }} {{ ps.middle_name }}</h1>
-<p>Отдел: {{ ps.department }}</p>
+<p>Отдел: {{ ps.department }} </p>
 <p>Должность: {{ ps.job_title }}</p>
 <p>Дата трудоустройства: {{ ps.jobing_at }}</p>
 <p>Запись добавлена: {{ ps.created_at | date:"d E Y" }}</p>

@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from .filters import PersonFilter, EquipmentFilter
-from .forms import LoginUserForm, FilterPersonForm
+from .forms import LoginUserForm, FilterPersonForm, AddPersonForm
 from .models import Equipment, Person
 from .utils import menu, DataMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -36,6 +36,22 @@ def show_equipment(request, equip_slug):
     return render(request, 'eqlog/equipment.html', context=context)
 
 
+def logout_user(request):
+    logout(request)
+    return redirect('login')
+
+
+def addperson(request):
+    if request.method == 'POST':
+        form = AddPersonForm(request.POST, request.FILES)
+        if form.is_valid():
+                    form.save()
+                    return redirect('home')
+    else:
+        form = AddPersonForm()
+    return render(request, 'eqlog/addperson.html', {'form': form})
+
+
 class PersonHome(DataMixin, ListView):
     model = Person
     template_name = 'eqlog/persons.html'
@@ -49,10 +65,19 @@ class PersonHome(DataMixin, ListView):
         ps_filter = PersonFilter(self.request.GET, queryset)
         c_def = self.get_user_context(title='Сотрудники', auth=auth, ps_filter=ps_filter)
         return {**context, **c_def}
+
     def get_queryset(self):
         queryset = super().get_queryset()
         ps_filter = PersonFilter(self.request.GET, queryset)
         return ps_filter.qs
+
+
+class AddPerson(LoginRequiredMixin, CreateView):
+    form_class = AddPersonForm
+    template_name = 'eqlog/addperson.html'
+    success_url = reverse_lazy('home')
+    login_url = reverse_lazy('home')
+
 
 class LoginUser(DataMixin, LoginView):
     form_class = LoginUserForm
@@ -62,8 +87,10 @@ class LoginUser(DataMixin, LoginView):
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(title="Авторизация")
         return {**context, **c_def}
+
     def get_success_url(self):
         return reverse_lazy('home')
+
 
 class ShowPerson(DataMixin, DetailView):
     model = Person
@@ -76,10 +103,6 @@ class ShowPerson(DataMixin, DetailView):
         auth = self.request.user.is_authenticated
         c_def = self.get_user_context(title='Главная страница', auth=auth)
         return {**context, **c_def}
-
-def logout_user(request):
-    logout(request)
-    return redirect('login')
 
 
 class Equipments(DataMixin, ListView):
@@ -95,10 +118,12 @@ class Equipments(DataMixin, ListView):
         eq_filter = EquipmentFilter(self.request.GET, queryset)
         c_def = self.get_user_context(title='Оборудование', auth=auth, eq_filter=eq_filter)
         return {**context, **c_def}
+
     def get_queryset(self):
         queryset = super().get_queryset()
         eq_filter = EquipmentFilter(self.request.GET, queryset)
         return eq_filter.qs
+
 
 class ShowEquipment(DataMixin, DetailView):
     model = Equipment
