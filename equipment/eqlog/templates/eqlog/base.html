@@ -6,9 +6,9 @@
     <meta charset="UTF-8">
     <title>{{ title }}</title>
 </head>
-<body bgcolor="#c0c0c0">
+<body bgcolor="white">
     {% block mainmenu %}
-    <div class="header">
+    <header class="header">
     <ul id="mainmenu" class="mainmenu">
         <li class="logo">
             <a href="{% url 'home' %}"><div class="logo"></div></a>
@@ -24,10 +24,13 @@
             {% endif %}
         </li>
     </ul>
-    </div>
+    </header>
 
     {% endblock mainmenu %}
-    {% block content %}
-    {% endblock content %}
+    <main>
+        {% block content %}
+        {% endblock content %}
+    </main>
+
 </body>
 </html>

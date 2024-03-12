@@ -7,9 +7,6 @@
 <p>Дата трудоустройства: {{ ps.jobing_at }}</p>
 <p>Запись добавлена: {{ ps.created_at | date:"d E Y" }}</p>
 <p>Работает: {{ ps.is_working }}</p>
-<p>Удалёнщик: {{ ps.remote }}</p>
+<p>Удалёнщик: <input type="checkbox" disabled checked="{{ ps.remote }}"> </p>
 <p>Город: {{ ps.city }}</p>
-
-</p>
-<br>
 {% endblock %}
