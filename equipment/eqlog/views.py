@@ -110,6 +110,9 @@ class ShowPerson(DataMixin, DetailView):
         context = super().get_context_data(**kwargs)
         auth = self.request.user.is_authenticated
         c_def = self.get_user_context(title='Главная страница', auth=auth)
+        person: Person = context['object']
+        context.update({"equipments": person.get_equipments.all()})
+        print(context)
         return {**context, **c_def}
 
 
@@ -144,3 +147,4 @@ class ShowEquipment(DataMixin, DetailView):
         auth = self.request.user.is_authenticated
         c_def = self.get_user_context(title='Главная страница', auth=auth)
         return {**context, **c_def}
+

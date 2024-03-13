@@ -6,7 +6,23 @@
 <p>Должность: {{ ps.job_title }}</p>
 <p>Дата трудоустройства: {{ ps.jobing_at }}</p>
 <p>Запись добавлена: {{ ps.created_at | date:"d E Y" }}</p>
-<p>Работает: {{ ps.is_working }}</p>
+<p>Работает: <input type="checkbox" disabled checked="{{ ps.is_working }}"></p>
 <p>Удалёнщик: <input type="checkbox" disabled checked="{{ ps.remote }}"> </p>
+<p>Удалёнщик: {{ ps.remote }} </p>
 <p>Город: {{ ps.city }}</p>
+<p>Оборудование: </p>
+<table>
+        {% for e in equipments %}
+            <tr>
+                <td>{{ e.type }}</td>
+                <td><a href="{{ e.get_absolute_url }}"> {{ e.model }}</a></td>
+                <td>{{ e.serial_number }}</td>
+                <td>{{ e.id_number }}</td>
+                <td>{{ e.sale_date }}</td>
+                <td>{{ e.price }}</td>
+                <td>{{ e.is_working }}</td>
+                <td>{{ e.testing }}</td>
+            </tr>
+        {% endfor %}
+</table>
 {% endblock %}
