@@ -28,6 +28,13 @@ class AddPersonForm(forms.ModelForm):
 
     class Meta:
         model = Person
-        #fields = '__all__'
-        fields = ['last_name', 'first_name', 'middle_name', 'department', 'job_title', 'jobing_at', 'remote', 'city', 'slug']
+        fields = ['last_name', 'first_name', 'middle_name', 'department', 'job_title', 'jobing_at', 'remote', 'city',
+                  'slug']
 
+class AddEquipmentForm(forms.ModelForm):
+
+    class Meta:
+        model = Equipment
+        #slug = {"slug": ("id_number", )}
+        fields = ['type', 'model', 'serial_number', 'id_number', 'slug', 'sale_date', 'price', 'is_working', 'testing',
+                  'person', 'description']

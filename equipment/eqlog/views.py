@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from .filters import PersonFilter, EquipmentFilter
-from .forms import LoginUserForm, FilterPersonForm, AddPersonForm
+from .forms import LoginUserForm, FilterPersonForm, AddPersonForm, AddEquipmentForm
 from .models import Equipment, Person
 from .utils import menu, DataMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -112,7 +112,18 @@ class ShowPerson(DataMixin, DetailView):
         c_def = self.get_user_context(title='Главная страница', auth=auth)
         person: Person = context['object']
         context.update({"equipments": person.get_equipments.all()})
-        print(context)
+        return {**context, **c_def}
+
+
+class UpdatePerson(LoginRequiredMixin, DataMixin, UpdateView):
+    model = Person
+    form_class = AddPersonForm
+    template_name = 'eqlog/update_person.html'
+    context_object_name = 'ps'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title='Изменить данные сотрудника')
         return {**context, **c_def}
 
 
@@ -148,3 +159,21 @@ class ShowEquipment(DataMixin, DetailView):
         c_def = self.get_user_context(title='Главная страница', auth=auth)
         return {**context, **c_def}
 
+
+class AddEquipment(LoginRequiredMixin, CreateView):
+    form_class = AddEquipmentForm
+    template_name = 'eqlog/add_equipment.html'
+    success_url = reverse_lazy('home')
+    login_url = reverse_lazy('home')
+
+
+class UpdateEquipment(LoginRequiredMixin, DataMixin, UpdateView):
+    model = Equipment
+    form_class = AddEquipmentForm
+    template_name = 'eqlog/update_equipment.html'
+    context_object_name = 'eq'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title='Изменить данные о оборудовании')
+        return {**context, **c_def}

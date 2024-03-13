@@ -1,35 +1,39 @@
 {% extends 'eqlog/base.html' %}
-
 {% block content %}
-    <h1>{{ title }}</h1>
+    {% if auth %}
+        <p><a href="{% url 'add_equipment' %}">ДОБАВИТЬ ОБОРУДОВАНИЕ</a> </p>
+        <h1>{{ title }}</h1>
         <form method="get" action="{% url 'equipments' %}">
             {{ eq_filter.form.as_p }}
             <button type="submit">Искать</button>
         </form>
-    <table border="1">
-        <caption>Полная таблица оборудования</caption>
-        <tr>
-            <th>Тип</th>
-            <th>Модель</th>
-            <th>Серийный номер</th>
-            <th>Инвентарный номер</th>
-            <th>Дата покупки</th>
-            <th>Цена покупки</th>
-            <th>Рабочее</th>
-            <th>Доступно для тестирования</th>
-       </tr>
-        {% for e in equipments %}
+        <table border="1">
+            <caption>Полная таблица оборудования</caption>
             <tr>
-                <td>{{ e.type }}</td>
-                <td><a href="{{ e.get_absolute_url }}"> {{ e.model }}</a></td>
-                <td>{{ e.serial_number }}</td>
-                <td>{{ e.id_number }}</td>
-                <td>{{ e.sale_date }}</td>
-                <td>{{ e.price }}</td>
-                <td>{{ e.is_working }}</td>
-                <td>{{ e.testing }}</td>
-            </tr>
-        {% endfor %}
-    </table>
-<p> Всего оборудования: {{ equipments | length }}</p>
+                <th>Тип</th>
+                <th>Модель</th>
+                <th>Серийный номер</th>
+                <th>Инвентарный номер</th>
+                <th>Дата покупки</th>
+                <th>Цена покупки</th>
+                <th>Рабочее</th>
+                <th>Доступно для тестирования</th>
+                <th>Ответственный</th>
+           </tr>
+            {% for e in equipments %}
+                <tr>
+                    <td>{{ e.type }}</td>
+                    <td><a href="{{ e.get_absolute_url }}"> {{ e.model }}</a></td>
+                    <td>{{ e.serial_number }}</td>
+                    <td>{{ e.id_number }}</td>
+                    <td>{{ e.sale_date }}</td>
+                    <td>{{ e.price }}</td>
+                    <td>{{ e.is_working }}</td>
+                    <td>{{ e.testing }}</td>
+                    <td>{{ e.person }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        <p> Всего оборудования: {{ equipments | length }}</p>
+    {% endif %}
 {% endblock %}

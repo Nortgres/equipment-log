@@ -1,0 +1,15 @@
+{% extends 'eqlog/base.html' %}
+
+{% block content %}
+<div class="center">
+    <form action="{% url 'update_equipment' eq.id %}" class="card" method="post" enctype="multipart/form-data">
+        <h2> {{ title }} </h2>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <p class="form-buttons">
+            <input type="submit" class="btn btn-primary" value="Сохранить">
+            <a href="{{ eq.get_absolute_url }}" class="btn btn-outline">Отмена</a>
+        </p>
+    </form>
+</div>
+{% endblock %}

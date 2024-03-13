@@ -1,7 +1,6 @@
 {% extends 'eqlog/base.html' %}
 
 {% block content %}
-    <h1>{{ title.upper }}</h1>
     {% if auth %}
         <p><a href="{% url 'addperson' %}">ДОБАВИТЬ СОТРУДНИКА</a> </p>
         <p>Поиск сотрудника: </p>
@@ -10,6 +9,7 @@
             <button type="submit">Искать</button>
         </form>
         <ul>
+            <h1>{{ title.upper }}</h1>
         {% for p in persons %}
             <li>
                 <a href="{{ p.get_absolute_url }}">
@@ -50,5 +50,4 @@
         </nav>
         {% endif %}
     {% endif %}
-
 {% endblock %}
