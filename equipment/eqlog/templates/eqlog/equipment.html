@@ -11,5 +11,6 @@
 <p>Доступно для тестирования: {{ eq.testing }}</p>
 <p>Серийный номер: {{ eq.serial_number }}</p>
 <p>Описание: {{ eq.description }}</p>
-<p>Сотрудник: {{ eq.person }}</p>
+<p>Ответственный: <a href="{{ person.get_absolute_url }}"> {{ eq.person }} </a></p>
+<p> </p>
 {% endblock %}
