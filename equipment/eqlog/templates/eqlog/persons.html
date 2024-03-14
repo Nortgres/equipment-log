@@ -8,20 +8,29 @@
             {{ ps_filter.form.as_p }}
             <button type="submit">Искать</button>
         </form>
-        <ul>
-            <h1>{{ title.upper }}</h1>
-        {% for p in persons %}
-            <li>
-                <a href="{{ p.get_absolute_url }}">
-                    {{ p.last_name }}
-                    {{ p.first_name }}
-                    {{ p.middle_name }}
-                    - Отдел: {{ p.department }}
-                    - должность: {{ p.job_title }}
-                </a>
-            </li>
-        {% endfor %}
-        </ul>
+        <h1>{{ title.upper }}</h1>
+        <table border="1">
+            <tr>
+                <th>ФИО</th>
+                <th>Отдел</th>
+                <th>Должность</th>
+                <th>Город</th>
+                <th>Дата трудоустройства</th>
+                <th>Удалёнщик</th>
+                <th>Работает</th>
+           </tr>
+            {% for p in persons %}
+                <tr>
+                    <td><a href="{{ p.get_absolute_url }}"> {{ p.last_name }} {{ p.first_name }} {{ p.middle_name }}</a></td>
+                    <td>{{ p.department }}</td>
+                    <td>{{ p.job_title }}</td>
+                    <td>{{ p.city }}</td>
+                    <td>{{ p.jobing_at }}</td>
+                    <td class="mark {% if p.remote %} mark_tick {% endif %}"></td>
+                    <td class="mark {% if p.is_working %} mark_tick {% endif %}"></td>
+                </tr>
+            {% endfor %}
+        </table>
         <p> Всего сотрудников: {{ persons | length }}</p>
 
         {% if page_obj.has_other_pages %}

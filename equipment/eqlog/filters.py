@@ -3,8 +3,8 @@ from .models import Person, Equipment
 
 
 class PersonFilter(FilterSet):
-    start_date = DateFilter(field_name='created_at', lookup_expr='gte')
-    end_date = DateFilter(field_name='created_at', lookup_expr='lte')
+    start_date = DateFilter(field_name='jobing_at', lookup_expr='gte')
+    end_date = DateFilter(field_name='jobing_at', lookup_expr='lte')
     last_name = CharFilter(field_name='last_name', lookup_expr='contains', label='Фамилия')
     first_name = CharFilter(field_name='first_name', lookup_expr='contains', label='Имя')
     department = CharFilter(field_name='department', lookup_expr='contains', label='Отдел')
@@ -15,8 +15,8 @@ class PersonFilter(FilterSet):
         fields = ['last_name', 'first_name', 'department', 'job_title']
 
 class EquipmentFilter(FilterSet):
-    start_date = DateFilter(field_name='updated_at', lookup_expr='gte')
-    end_date = DateFilter(field_name='updated_at', lookup_expr='lte')
+    start_date = DateFilter(field_name='sale_date', lookup_expr='gte')
+    end_date = DateFilter(field_name='sale_date', lookup_expr='lte')
     type = CharFilter(field_name='type', lookup_expr='contains', label='Тип оборудования')
     model = CharFilter(field_name='model', lookup_expr='contains', label='Модель')
     id_number = CharFilter(field_name='id_number', lookup_expr='contains', label='Инвентарный номер')

@@ -1,6 +1,7 @@
 {% extends 'eqlog/base.html' %}
 
 {% block content %}
+<p><a href="{% url 'persons' %}">Вернуться</a> </p>
 <p>Добавить сотрудника: </p>
     <form action="{% url 'addperson' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}

@@ -1,7 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from django.core.exceptions import ValidationError
-
 from eqlog.models import Person, Equipment
 
 
@@ -16,9 +15,6 @@ class FilterPersonForm(forms.Form):
 
 
 class AddPersonForm(forms.ModelForm):
-    #def __init__(self, *args, **kwargs):
-    #    super().__init__(*args, **kwargs)
-    #    self.fields['group'].empty_label = 'Не выбрана'
 
     def clean_first_name(self):
         first_name = self.cleaned_data['first_name']
@@ -30,6 +26,7 @@ class AddPersonForm(forms.ModelForm):
         model = Person
         fields = ['last_name', 'first_name', 'middle_name', 'department', 'job_title', 'jobing_at', 'remote', 'city',
                   'slug']
+
 
 class AddEquipmentForm(forms.ModelForm):
 

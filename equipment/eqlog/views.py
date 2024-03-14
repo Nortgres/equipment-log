@@ -51,6 +51,7 @@ def addperson(request):
             return redirect('persons')
     else:
         form = AddPersonForm()
+
     return render(request, 'eqlog/addperson.html', {'form': form})
 
 
@@ -77,7 +78,7 @@ class PersonHome(DataMixin, ListView):
 class AddPerson(LoginRequiredMixin, CreateView):
     form_class = AddPersonForm
     template_name = 'eqlog/addperson.html'
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('persons')
     login_url = reverse_lazy('home')
 
     #def get_context_data(self, *, object_list=None, **kwargs):
