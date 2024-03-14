@@ -30,7 +30,7 @@
                     <td>{{ e.price }}</td>
                     <td class="mark {% if e.is_working %} mark_tick {% endif %}"> </td>
                     <td class="mark {% if e.testing %} mark_tick {% endif %}"> </td>
-                    <td>{{ e.person }}</td>
+                    <td><a href="{{ e.person.get_absolute_url }}"> {{ e.person }}</a></td>
                 </tr>
             {% endfor %}
         </table>

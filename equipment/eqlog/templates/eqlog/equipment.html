@@ -11,6 +11,6 @@
 <p class="mark {% if eq.testing %} mark_tick {% endif %}">Доступно для тестирования: </p>
 <p>Серийный номер: {{ eq.serial_number }}</p>
 <p>Описание: {{ eq.description }}</p>
-<p>Ответственный: <a href="{{ person.get_absolute_url }}"> {{ eq.person }} </a></p>
+<p>Ответственный: <a href="{{ eq.person.get_absolute_url }}"> {{ eq.person }} </a></p>
 <p> </p>
 {% endblock %}
