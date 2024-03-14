@@ -179,3 +179,22 @@ ul.mainmenu li a:hover {
     background-color: #ee394c;
     color: #ffffff;
 }
+
+.mark::after {
+    display: inline-block;
+    content: "";
+    width: 20px;
+    height: 20px;
+    background-image: url('../images/cross.svg');
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.mark_tick::after {
+    background-image: url('../images/tick.svg');
+}
+
+td {
+    text-align: center;
+}

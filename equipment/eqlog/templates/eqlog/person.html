@@ -8,10 +8,9 @@
         <p>Должность: {{ ps.job_title }}</p>
         <p>Дата трудоустройства: {{ ps.jobing_at }}</p>
         <p>Запись добавлена: {{ ps.created_at | date:"d E Y" }}</p>
-        <p>Работает: <input type="checkbox" disabled checked="{{ ps.is_working }}"></p>
-        <p>Удалёнщик: <input type="checkbox" disabled checked=" {{ ps.remote }} "> </p>
-        <p>Удалёнщик: {{ ps.remote }} </p>
-        <p>Город: {{ ps.city }}</p>
+        <p class="mark {% if ps.is_working %} mark_tick {% endif %}"> Работает: </p>
+        <p class="mark {% if ps.remote %} mark_tick {% endif %}"> Удалёнщик: </p>
+        <p >Город: {{ ps.city }}</p>
         <table border="1">
             <caption>Оборудование у сотрудника </caption>
                 <tr>
@@ -32,8 +31,8 @@
                         <td>{{ e.id_number }}</td>
                         <td>{{ e.sale_date }}</td>
                         <td>{{ e.price }}</td>
-                        <td>{{ e.is_working }}</td>
-                        <td>{{ e.testing }}</td>
+                        <td class="mark {% if e.is_working %} mark_tick {% endif %}"> </td>
+                        <td class="mark {% if e.testing %} mark_tick {% endif %}"> </td>
                     </tr>
                 {% endfor %}
         </table>
