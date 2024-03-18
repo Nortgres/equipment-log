@@ -74,3 +74,17 @@ class Department(models.Model):
     class Meta:
         verbose_name = 'Отдел'
         verbose_name_plural = 'Отделы'
+
+
+class SettingID(models.Model):
+    prefix = models.CharField(max_length=10, verbose_name='Префикс инвентарного номера')
+    id_l = models.IntegerField(max_length=10, verbose_name='Длина цифровой части инв.номера')
+
+    @classmethod
+    def get_singleton(cls):
+        obj, created = cls.objects.get_or_create(pk=1, defaults=dict(prefix='ГM-', id_l='6'))
+        return obj
+
+    class Meta:
+        verbose_name = 'Настройки инв.номера'
+        verbose_name_plural = 'Настройки инв.номера'

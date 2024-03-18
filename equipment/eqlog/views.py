@@ -178,3 +178,7 @@ class UpdateEquipment(LoginRequiredMixin, DataMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(title='Изменить данные о оборудовании')
         return {**context, **c_def}
+
+
+class GenerateID(LoginRequiredMixin, DataMixin):
+    pass

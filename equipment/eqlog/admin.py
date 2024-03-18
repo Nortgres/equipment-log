@@ -1,6 +1,7 @@
 from django.contrib import admin
+from django.db.utils import ProgrammingError
+from .models import Person, Equipment, Department, SettingID
 
-from .models import Person, Equipment, Department
 
 @admin.register(Person)
 class PersonAdmin(admin.ModelAdmin):
@@ -10,6 +11,7 @@ class PersonAdmin(admin.ModelAdmin):
     search_fields = ('last_name', 'first_name')
     list_filter = ('is_working', 'remote', 'city', 'created_at',)
     prepopulated_fields = {"slug": ("last_name", )}
+
 
 @admin.register(Equipment)
 class EquipmentAdmin(admin.ModelAdmin):
@@ -25,3 +27,22 @@ class EquipmentAdmin(admin.ModelAdmin):
 class DepartmentAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
     list_display_links = ('id', 'name')
+
+
+@admin.register(SettingID)
+class SettingIDAdmin(admin.ModelAdmin):
+    list_display = ('prefix', 'id_l')
+    list_display_links = ('prefix', 'id_l')
+
+    def __init__(self, model, admin_site):
+        super().__init__(model, admin_site)
+        try:
+            SettingID.get_singleton().save()
+        except ProgrammingError:
+            pass
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
