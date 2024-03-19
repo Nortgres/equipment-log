@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.db.utils import ProgrammingError
+from solo.admin import SingletonModelAdmin
 from .models import Person, Equipment, Department, SettingID
 
 
@@ -29,20 +29,5 @@ class DepartmentAdmin(admin.ModelAdmin):
     list_display_links = ('id', 'name')
 
 
-@admin.register(SettingID)
-class SettingIDAdmin(admin.ModelAdmin):
-    list_display = ('prefix', 'id_l')
-    list_display_links = ('prefix', 'id_l')
+admin.site.register(SettingID, SingletonModelAdmin)
 
-    def __init__(self, model, admin_site):
-        super().__init__(model, admin_site)
-        try:
-            SettingID.get_singleton().save()
-        except ProgrammingError:
-            pass
-
-    def has_add_permission(self, request):
-        return False
-
-    def has_delete_permission(self, request, obj=None):
-        return False

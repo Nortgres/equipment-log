@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'eqlog.apps.EqlogConfig',
     'django_filters',
+    'solo.apps.SoloAppConfig',
 ]
 
 MIDDLEWARE = [

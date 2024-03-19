@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.urls import reverse
+from solo.models import SingletonModel
 
 
 class Equipment(models.Model):
@@ -76,15 +77,12 @@ class Department(models.Model):
         verbose_name_plural = 'Отделы'
 
 
-class SettingID(models.Model):
-    prefix = models.CharField(max_length=10, verbose_name='Префикс инвентарного номера')
-    id_l = models.IntegerField(max_length=10, verbose_name='Длина цифровой части инв.номера')
+class SettingID(SingletonModel):
+    prefix = models.CharField(max_length=10, verbose_name='Префикс инвентарного номера', default='ГM-')
+    id_l = models.IntegerField(max_length=10, verbose_name='Длина цифровой части инв.номера', default='6')
 
-    @classmethod
-    def get_singleton(cls):
-        obj, created = cls.objects.get_or_create(pk=1, defaults=dict(prefix='ГM-', id_l='6'))
-        return obj
+    def __str__(self):
+        return 'SettingID'
 
     class Meta:
         verbose_name = 'Настройки инв.номера'
-        verbose_name_plural = 'Настройки инв.номера'
