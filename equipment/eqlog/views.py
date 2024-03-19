@@ -7,7 +7,7 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from .filters import PersonFilter, EquipmentFilter
 from .forms import LoginUserForm, FilterPersonForm, AddPersonForm, AddEquipmentForm
-from .models import Equipment, Person
+from .models import Equipment, Person, SettingID
 from .utils import menu, DataMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -161,15 +161,16 @@ class ShowEquipment(DataMixin, DetailView):
         return {**context, **c_def}
 
 
+def generate_id():
+    setting_id = SettingID.objects.get()
+    return {setting_id}
+
+
 class AddEquipment(LoginRequiredMixin, CreateView):
     form_class = AddEquipmentForm
     template_name = 'eqlog/add_equipment.html'
     success_url = reverse_lazy('home')
     login_url = reverse_lazy('home')
-
-    def generate_id(self):
-        pass
-
 
 
 class UpdateEquipment(LoginRequiredMixin, DataMixin, UpdateView):

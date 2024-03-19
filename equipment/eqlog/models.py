@@ -22,6 +22,10 @@ class Equipment(models.Model):
     slug = models.SlugField(verbose_name='URL', max_length=255, unique=True, db_index=True)
     objects = models.Manager()
 
+    # def __init__(self, *args, **kwargs):
+    #    super(Equipment, self).__init__(*args, **kwargs)
+    #    self.slug = self.id_number
+
     def __str__(self):
         return self.model
 
