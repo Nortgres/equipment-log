@@ -167,6 +167,10 @@ class AddEquipment(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('home')
     login_url = reverse_lazy('home')
 
+    def generate_id(self):
+        pass
+
+
 
 class UpdateEquipment(LoginRequiredMixin, DataMixin, UpdateView):
     model = Equipment
@@ -178,7 +182,3 @@ class UpdateEquipment(LoginRequiredMixin, DataMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(title='Изменить данные о оборудовании')
         return {**context, **c_def}
-
-
-class GenerateID(LoginRequiredMixin, DataMixin):
-    pass
