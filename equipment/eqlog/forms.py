@@ -29,10 +29,10 @@ class AddPersonForm(forms.ModelForm):
 
 
 class AddEquipmentForm(forms.ModelForm):
-    def generate_id(self):
-        pass
+    #def generate_id(self):
+    #    print('test_generate_id')
 
     class Meta:
         model = Equipment
-        fields = ['type', 'model', 'serial_number', 'id_number', 'slug', 'sale_date', 'price', 'is_working', 'testing', 'person',
-                  'description']
+        fields = ['type', 'model', 'serial_number', 'slug', 'sale_date', 'price', 'is_working', 'testing',
+                  'person', 'description', 'id_number']

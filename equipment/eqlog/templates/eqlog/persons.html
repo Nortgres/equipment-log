@@ -2,13 +2,16 @@
 
 {% block content %}
     {% if auth %}
-        <p><a href="{% url 'addperson' %}">ДОБАВИТЬ СОТРУДНИКА</a> </p>
-        <p>Поиск сотрудника: </p>
+        <h1>{{ title }}</h1>
+        <p class="form-buttons">
+            <p><a href="{% url 'addperson' %}" class="btn btn-outline">ДОБАВИТЬ СОТРУДНИКА</a>
+        </p>
+        <h3>Поиск сотрудника: </h3>
         <form method="get" action="{% url 'persons' %}">
             {{ ps_filter.form.as_p }}
             <button type="submit">Искать</button>
         </form>
-        <h1>{{ title.upper }}</h1>
+        <br>
         <table border="1">
             <tr>
                 <th>ФИО</th>

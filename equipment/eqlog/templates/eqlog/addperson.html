@@ -1,12 +1,15 @@
 {% extends 'eqlog/base.html' %}
 
 {% block content %}
-<p><a href="{% url 'persons' %}">Вернуться</a> </p>
-<p>Добавить сотрудника: </p>
-    <form action="{% url 'addperson' %}" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Добавить</button>
+<div class="center">
+    <form action="{% url 'addperson' %}" class="card" method="post" enctype="multipart/form-data">
+        <h2> {{ title }} </h2>
+            {% csrf_token %}
+            {{ form.as_p }}
+        <p class="form-buttons">
+            <input type="submit" class="btn btn-primary" value="Добавить">
+            <a href="{% url 'persons' %}" class="btn btn-outline">Отмена</a>
+        </p>
     </form>
-<br>
+</div>
 {% endblock %}

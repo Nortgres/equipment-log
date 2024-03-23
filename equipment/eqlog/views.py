@@ -15,8 +15,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 def about(request):
     return render(request, 'eqlog/about.html', {'menu': menu, 'title': 'О сайте'})
 
+
+def eqlog(request):
+    return render(request, 'eqlog/about.html', {'menu': menu, 'title': 'О сайте'})
+
+
 def home(request):
     return render(request, 'eqlog/index.html', {'menu': menu, 'title': 'Главная страница'})
+
 
 def show_person(request, pers_slug):
     person = get_object_or_404(Person, slug=pers_slug)
@@ -75,17 +81,16 @@ class PersonHome(DataMixin, ListView):
         return ps_filter.qs
 
 
-class AddPerson(LoginRequiredMixin, CreateView):
+class AddPerson(LoginRequiredMixin, DataMixin, CreateView):
     form_class = AddPersonForm
     template_name = 'eqlog/addperson.html'
     success_url = reverse_lazy('persons')
     login_url = reverse_lazy('home')
 
-    #def get_context_data(self, *, object_list=None, **kwargs):
-    #    context = super().get_context_data(**kwargs)
-    #    auth = self.request.user.is_authenticated
-    #    c_def = self.get_user_context(title='Главная страница', auth=auth)
-    #    return {**context, **c_def}
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title='Добавить сотрудника')
+        return {**context, **c_def}
 
 
 class LoginUser(DataMixin, LoginView):
@@ -166,11 +171,29 @@ def generate_id():
     return {setting_id}
 
 
-class AddEquipment(LoginRequiredMixin, CreateView):
+def add_equipment(request):
+    if request.method == 'POST':
+        form = AddEquipmentForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('equipments')
+    else:
+        form = AddEquipmentForm()
+        context = {"form": form}
+        print('test_view_add_equipment')
+        return render(request, 'eqlog/addequipment.html', context)
+
+
+class AddEquipment(LoginRequiredMixin, DataMixin, CreateView):
     form_class = AddEquipmentForm
-    template_name = 'eqlog/add_equipment.html'
+    template_name = 'eqlog/addequipment.html'
     success_url = reverse_lazy('home')
     login_url = reverse_lazy('home')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title='Добавить оборудование')
+        return {**context, **c_def}
 
 
 class UpdateEquipment(LoginRequiredMixin, DataMixin, UpdateView):

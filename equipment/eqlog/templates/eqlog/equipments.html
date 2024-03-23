@@ -1,8 +1,11 @@
 {% extends 'eqlog/base.html' %}
 {% block content %}
     {% if auth %}
-        <p><a href="{% url 'add_equipment' %}">ДОБАВИТЬ ОБОРУДОВАНИЕ</a> </p>
         <h1>{{ title }}</h1>
+        <p class="form-buttons">
+            <a href="{% url 'addequipment' %}" class="btn btn-outline">ДОБАВИТЬ ОБОРУДОВАНИЕ</a>
+        </p>
+        <h3>Поиск оборудования: </h3>
         <form method="get" action="{% url 'equipments' %}">
             {{ eq_filter.form.as_p }}
             <button type="submit">Искать</button>
