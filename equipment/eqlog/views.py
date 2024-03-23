@@ -1,4 +1,3 @@
-import random
 from django.contrib.auth import logout, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView
@@ -168,14 +167,24 @@ class ShowEquipment(DataMixin, DetailView):
 
 
 def generate_in(request):
-     #return {setting_id}
     if request.method == 'POST':
         setting_id = SettingID.objects.get()
-        #data = request.POST.get('data')
-        #return HttpResponse('Данные получены: {}'.format(data))
-        #inventory_number = random.randint(1000, 9999)
+        #generate_in_number = GenerateIN()
         inventory_number = (setting_id.prefix, setting_id.id_l)
         return JsonResponse({'inventory_number': inventory_number})
+
+
+class GenerateIN(DataMixin, DetailView):
+    model = Equipment
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        auth = self.request.user.is_authenticated
+        c_def = self.get_user_context(title='Главная страница', auth=auth)
+        person: Person = context['object']
+        print(context)
+        return {**context, **c_def}
+#    def get_id_number(self):
 
 
 def add_equipment(request):
@@ -188,7 +197,6 @@ def add_equipment(request):
         form = AddEquipmentForm()
         test = 'test'
         context = {"form": form}
-        context.update({"id_number": test})
         return render(request, 'eqlog/addequipment.html', context)
 
 
