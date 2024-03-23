@@ -169,22 +169,22 @@ class ShowEquipment(DataMixin, DetailView):
 def generate_in(request):
     if request.method == 'POST':
         setting_id = SettingID.objects.get()
-        #generate_in_number = GenerateIN()
-        inventory_number = (setting_id.prefix, setting_id.id_l)
-        return JsonResponse({'inventory_number': inventory_number})
-
-
-class GenerateIN(DataMixin, DetailView):
-    model = Equipment
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        auth = self.request.user.is_authenticated
-        c_def = self.get_user_context(title='Главная страница', auth=auth)
-        person: Person = context['object']
-        print(context)
-        return {**context, **c_def}
-#    def get_id_number(self):
+        eq = Equipment()
+        id_numbers_len = len(setting_id.prefix) + setting_id.id_l
+        id_numbers = list(filter(lambda x: len(x) == id_numbers_len, eq.get_id_numbers))
+        if len(id_numbers) > 0:
+            num_current = []
+            for i in id_numbers:
+                if setting_id.prefix in i:
+                    num = int(i.split(setting_id.prefix)[1])
+                    num_current.append(num)
+            if num_current:
+                id_number_new = setting_id.prefix + str(max(num_current) + 1)
+            else:
+                id_number_new = setting_id.prefix + str(1).zfill(setting_id.id_l)
+        else:
+            id_number_new = setting_id.prefix + str(1).zfill(setting_id.id_l)
+        return JsonResponse({'inventory_number': id_number_new})
 
 
 def add_equipment(request):
@@ -195,7 +195,6 @@ def add_equipment(request):
             return redirect('equipments')
     else:
         form = AddEquipmentForm()
-        test = 'test'
         context = {"form": form}
         return render(request, 'eqlog/addequipment.html', context)
 
@@ -203,7 +202,7 @@ def add_equipment(request):
 class AddEquipment(LoginRequiredMixin, DataMixin, CreateView):
     form_class = AddEquipmentForm
     template_name = 'eqlog/addequipment.html'
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('equipments')
     login_url = reverse_lazy('home')
 
     def get_context_data(self, **kwargs):

@@ -32,6 +32,10 @@ class Equipment(models.Model):
     def get_absolute_url(self):
         return reverse('equipment', kwargs={'equip_slug': self.slug})
 
+    @property
+    def get_id_numbers(self):
+        id_numbers = list(Equipment.objects.values_list('id_number', flat=True))
+        return id_numbers
 
     class Meta:
         verbose_name = 'Оборудование'
@@ -84,7 +88,7 @@ class Department(models.Model):
 
 class SettingID(SingletonModel):
     prefix = models.CharField(max_length=10, verbose_name='Префикс инвентарного номера', default='ГM-')
-    id_l = models.IntegerField(max_length=10, verbose_name='Длина цифровой части инв.номера', default='6')
+    id_l = models.IntegerField(verbose_name='Длина цифровой части инв.номера', default='6')
 
     # def __str__(self):
     #    return self.prefix
