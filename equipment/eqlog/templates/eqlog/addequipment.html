@@ -6,7 +6,7 @@
         <h2> {{ title }} </h2>
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Сгенерировать ИН</button>
+        <button type="button">Сгенерировать Инвентарный Номер</button>
         <p class="form-buttons">
             <input type="submit" class="btn btn-primary" value="Добавить">
             <a href="{% url 'equipments' %}" class="btn btn-outline">Отмена</a>

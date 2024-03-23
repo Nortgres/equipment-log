@@ -166,9 +166,9 @@ class ShowEquipment(DataMixin, DetailView):
         return {**context, **c_def}
 
 
-def generate_id():
-    setting_id = SettingID.objects.get()
-    return {setting_id}
+# def generate_id():
+#     setting_id = SettingID.objects.get()
+#     return {setting_id}
 
 
 def add_equipment(request):
@@ -179,8 +179,9 @@ def add_equipment(request):
             return redirect('equipments')
     else:
         form = AddEquipmentForm()
+        test = 'test'
         context = {"form": form}
-        print('test_view_add_equipment')
+        context.update({"id_number": test})
         return render(request, 'eqlog/addequipment.html', context)
 
 

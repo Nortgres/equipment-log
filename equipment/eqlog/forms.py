@@ -29,7 +29,7 @@ class AddPersonForm(forms.ModelForm):
 
 
 class AddEquipmentForm(forms.ModelForm):
-    #def generate_id(self):
+    # def generate_id(self):
     #    print('test_generate_id')
 
     class Meta:
