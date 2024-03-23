@@ -1,8 +1,9 @@
+import random
 from django.contrib.auth import logout, login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from .filters import PersonFilter, EquipmentFilter
@@ -166,9 +167,15 @@ class ShowEquipment(DataMixin, DetailView):
         return {**context, **c_def}
 
 
-# def generate_id():
-#     setting_id = SettingID.objects.get()
-#     return {setting_id}
+def generate_in(request):
+     #return {setting_id}
+    if request.method == 'POST':
+        setting_id = SettingID.objects.get()
+        #data = request.POST.get('data')
+        #return HttpResponse('Данные получены: {}'.format(data))
+        #inventory_number = random.randint(1000, 9999)
+        inventory_number = (setting_id.prefix, setting_id.id_l)
+        return JsonResponse({'inventory_number': inventory_number})
 
 
 def add_equipment(request):

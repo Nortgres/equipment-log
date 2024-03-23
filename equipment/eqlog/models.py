@@ -85,8 +85,8 @@ class SettingID(SingletonModel):
     prefix = models.CharField(max_length=10, verbose_name='Префикс инвентарного номера', default='ГM-')
     id_l = models.IntegerField(max_length=10, verbose_name='Длина цифровой части инв.номера', default='6')
 
-    def __str__(self):
-        return 'SettingID'
+    #def __str__(self):
+    #    return self.prefix
 
     class Meta:
         verbose_name = 'Настройки инв.номера'
