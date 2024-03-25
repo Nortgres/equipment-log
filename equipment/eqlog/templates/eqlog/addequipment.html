@@ -6,9 +6,8 @@
         <h2> {{ title }} </h2>
         {% csrf_token %}
         {{ form.as_p }}
-        <form method="POST" action="{% url 'generate_in' %}">
+        <input id="generate-input" name="id_number" >
             <button type="button" id="generate-inventory-number">Сгенерировать Инвентарный Номер</button>
-        </form>
         <p>Инвентарный номер: <span id="inventory-number"></span></p>
         <p class="form-buttons">
             <input type="submit" class="btn btn-primary" value="Добавить">
@@ -29,6 +28,8 @@ document.getElementById('generate-inventory-number').addEventListener('click', f
     .then(response => response.json())
     .then(data => {
         document.getElementById('inventory-number').textContent = data.inventory_number;
+        const input = document.getElementById('generate-input')
+        input.value = data.inventory_number
     });
 });
 </script>
