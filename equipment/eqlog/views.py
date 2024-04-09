@@ -167,7 +167,7 @@ class ShowEquipment(DataMixin, DetailView):
 
 
 def generate_in(request):
-    if request.method == 'POST':
+    if request.method == 'GET':
         setting_id = SettingID.objects.get()
         eq = Equipment()
         id_numbers_len = len(setting_id.prefix) + setting_id.id_l
@@ -179,7 +179,7 @@ def generate_in(request):
                     num = int(i.split(setting_id.prefix)[1])
                     num_current.append(num)
             if num_current:
-                id_number_new = setting_id.prefix + str(max(num_current) + 1)
+                id_number_new = setting_id.prefix + (str((max(num_current))+1).zfill(setting_id.id_l))
             else:
                 id_number_new = setting_id.prefix + str(1).zfill(setting_id.id_l)
         else:
