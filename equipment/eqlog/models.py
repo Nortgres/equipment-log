@@ -10,7 +10,7 @@ class Equipment(models.Model):
     type = models.CharField(verbose_name='Тип оборудования', max_length=50)
     model = models.CharField(verbose_name='Модель', max_length=50)
     serial_number = models.CharField(verbose_name='Серийный номер', max_length=50)
-    id_number = models.CharField(verbose_name='Инвентарный номер', max_length=10)
+    id_number = models.CharField(verbose_name='Инвентарный номер', max_length=10, unique=True)
     sale_date = models.DateField(verbose_name='Дата покупки', default=date(2024, 1, 1))
     price = models.FloatField(verbose_name='Цена покупки', max_length=10)
     is_working = models.BooleanField(verbose_name='Работает', default=True)
@@ -20,6 +20,7 @@ class Equipment(models.Model):
     updated_at = models.DateTimeField(verbose_name='Дата изменения', auto_now=True)
     person = models.ForeignKey('Person', on_delete=models.PROTECT, verbose_name='Сотрудник', related_name='get_equipments')
     slug = models.SlugField(verbose_name='URL', max_length=255, unique=True, db_index=True)
+    user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.DO_NOTHING, null=True)
     objects = models.Manager()
 
     # def __init__(self, *args, **kwargs):
@@ -56,6 +57,7 @@ class Person(models.Model):
     is_working = models.BooleanField(verbose_name='Работает', default=True)
     city = models.CharField(verbose_name='Город', max_length=50, default='Москва')
     slug = models.SlugField(verbose_name='URL', max_length=255, unique=True, db_index=True)
+    user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.DO_NOTHING, null=True)
     objects = models.Manager()
 
     @property
