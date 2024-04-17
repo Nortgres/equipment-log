@@ -30,13 +30,12 @@ class AddPersonForm(forms.ModelForm):
 
 
 class AddEquipmentForm(forms.ModelForm):
-    # def generate_id(self):
-    #    print('test_generate_id')
 
     class Meta:
         model = Equipment
         fields = ['type', 'model', 'serial_number', 'slug', 'sale_date', 'price', 'is_working', 'testing',
-                  'person', 'description', 'id_number']
+                  'person', 'description', 'id_number', 'user']
         widgets = {
                     "id_number": TextInput(attrs={"id": "in_number"}),
+                    "user": forms.HiddenInput(),
                 }

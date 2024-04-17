@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="center">
-    <form id="add-equipment-form" action="{% url 'addequipment' %}" class="card" method="get" enctype="multipart/form-data">
+    <form id="add-equipment-form" action="{% url 'addequipment' %}" class="card" method="post" enctype="multipart/form-data">
         <h2> {{ title }} </h2>
         {% csrf_token %}
         {{ form.as_p }}

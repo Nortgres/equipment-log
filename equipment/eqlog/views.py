@@ -1,9 +1,10 @@
 from django.contrib.auth import logout, login
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, JsonResponse
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from .filters import PersonFilter, EquipmentFilter
 from .forms import LoginUserForm, FilterPersonForm, AddPersonForm, AddEquipmentForm
@@ -189,14 +190,16 @@ def generate_in(request):
 
 def add_equipment(request):
     if request.method == 'POST':
+        data = request.POST.copy()
+        data.update({'user': request.user})
         form = AddEquipmentForm(request.POST, request.FILES)
+        form.user = request.user
         if form.is_valid():
             form.save()
             return redirect('equipments')
     else:
         form = AddEquipmentForm()
-        context = {"form": form}
-        return render(request, 'eqlog/addequipment.html', context)
+        return render(request, 'eqlog/addequipment.html', {"form": form})
 
 
 class AddEquipment(LoginRequiredMixin, DataMixin, CreateView):
@@ -204,11 +207,18 @@ class AddEquipment(LoginRequiredMixin, DataMixin, CreateView):
     template_name = 'eqlog/addequipment.html'
     success_url = reverse_lazy('equipments')
     login_url = reverse_lazy('home')
+    raise_exception = True
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(title='Добавить оборудование')
         return {**context, **c_def}
+
+    #def form_valid(self, form):
+    #    equipment = form.save(commit=False)
+    #    equipment.user = User.objects.get(username=self.request.user)
+    #    equipment.save()
+    #    return redirect(reverse('equipments'))
 
 
 class UpdateEquipment(LoginRequiredMixin, DataMixin, UpdateView):
@@ -221,3 +231,9 @@ class UpdateEquipment(LoginRequiredMixin, DataMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(title='Изменить данные о оборудовании')
         return {**context, **c_def}
+
+    #def form_valid(self, form):
+    #    equipment = form.save(commit=False)
+    #    equipment.user = User.objects.get(username=self.request.user)
+    #    equipment.save()
+    #    return redirect(reverse('equipments'))
