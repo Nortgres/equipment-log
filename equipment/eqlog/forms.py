@@ -34,8 +34,8 @@ class AddEquipmentForm(forms.ModelForm):
     class Meta:
         model = Equipment
         fields = ['type', 'model', 'serial_number', 'slug', 'sale_date', 'price', 'is_working', 'testing',
-                  'person', 'description', 'id_number', 'user']
+                  'person', 'description', 'id_number']
         widgets = {
                     "id_number": TextInput(attrs={"id": "in_number"}),
-                    "user": forms.HiddenInput(),
+       #             "user": forms.HiddenInput(),
                 }

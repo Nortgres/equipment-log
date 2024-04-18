@@ -2,8 +2,11 @@ from datetime import date
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
+from django.http import request
 from django.urls import reverse
 from solo.models import SingletonModel
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 class Equipment(models.Model):
@@ -23,10 +26,6 @@ class Equipment(models.Model):
     user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.DO_NOTHING, null=True)
     objects = models.Manager()
 
-    # def __init__(self, *args, **kwargs):
-    #    super(Equipment, self).__init__(*args, **kwargs)
-    #    self.slug = self.id_number
-
     def __str__(self):
         return self.model
 
@@ -42,6 +41,13 @@ class Equipment(models.Model):
         verbose_name = 'Оборудование'
         verbose_name_plural = 'Оборудование'
         ordering = ['type', 'model']
+
+
+@receiver(post_save, sender=Equipment)
+def save_user(sender, instance, created, **kwargs):
+    if created:
+        instance.created_by = request.user
+        instance.save()
 
 
 class Person(models.Model):

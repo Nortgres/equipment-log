@@ -190,11 +190,11 @@ def generate_in(request):
 
 def add_equipment(request):
     if request.method == 'POST':
-        data = request.POST.copy()
-        data.update({'user': request.user})
+     #   data = request.POST.copy()
+     #   data.update({'user': request.user})
         form = AddEquipmentForm(request.POST, request.FILES)
-        form.user = request.user
         if form.is_valid():
+      #      form.user = request.user
             form.save()
             return redirect('equipments')
     else:
@@ -216,7 +216,7 @@ class AddEquipment(LoginRequiredMixin, DataMixin, CreateView):
 
     #def form_valid(self, form):
     #    equipment = form.save(commit=False)
-    #    equipment.user = User.objects.get(username=self.request.user)
+    #    equipment.user = User.objects.get(user=self.request.user)
     #    equipment.save()
     #    return redirect(reverse('equipments'))
 
