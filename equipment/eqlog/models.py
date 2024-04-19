@@ -43,13 +43,6 @@ class Equipment(models.Model):
         ordering = ['type', 'model']
 
 
-@receiver(post_save, sender=Equipment)
-def save_user(sender, instance, created, **kwargs):
-    if created:
-        instance.created_by = request.user
-        instance.save()
-
-
 class Person(models.Model):
     last_name = models.CharField(verbose_name='Фамилия', max_length=50)
     first_name = models.CharField(verbose_name='Имя', max_length=50)

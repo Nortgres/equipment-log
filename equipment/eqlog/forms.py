@@ -37,5 +37,5 @@ class AddEquipmentForm(forms.ModelForm):
                   'person', 'description', 'id_number']
         widgets = {
                     "id_number": TextInput(attrs={"id": "in_number"}),
-       #             "user": forms.HiddenInput(),
+               #     "user": forms.HiddenInput(),
                 }

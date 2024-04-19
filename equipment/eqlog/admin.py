@@ -16,7 +16,7 @@ class PersonAdmin(admin.ModelAdmin):
 @admin.register(Equipment)
 class EquipmentAdmin(admin.ModelAdmin):
     list_display = ('id', 'type', 'model', 'serial_number', 'id_number', 'sale_date', 'price', 'is_working', 'testing',
-                    'description')
+                    'description', 'user')
     list_display_links = ('id', 'type', 'model')
     search_fields = ('type', 'id_number')
     list_filter = ('is_working', 'sale_date', 'type', 'id_number',)

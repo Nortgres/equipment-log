@@ -11,6 +11,7 @@ from .forms import LoginUserForm, FilterPersonForm, AddPersonForm, AddEquipmentF
 from .models import Equipment, Person, SettingID
 from .utils import menu, DataMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 
 
 def about(request):
@@ -188,18 +189,34 @@ def generate_in(request):
         return JsonResponse({'inventory_number': id_number_new})
 
 
-def add_equipment(request):
-    if request.method == 'POST':
+@login_required
+#def add_equipment(request):
+#    if request.method == 'POST':
+#        form = AddEquipmentForm(request.POST)
+#        if form.is_valid():
+#            equipment = form.save(commit=False)
+#            print("User before assignment:", equipment.user)
+#            equipment.user = request.user
+#            print("User after assignment:", equipment.user)
+#            equipment.save()
+#            return redirect('equipments')
+#    else:
+#        form = AddEquipmentForm()
+
+#    return render(request, 'eqlog/addequipment.html', {"form": form})
+
+## def add_equipment(request):
+##    if request.method == 'POST':
      #   data = request.POST.copy()
      #   data.update({'user': request.user})
-        form = AddEquipmentForm(request.POST, request.FILES)
-        if form.is_valid():
+##        form = AddEquipmentForm(request.POST, request.FILES)
+##        if form.is_valid():
       #      form.user = request.user
-            form.save()
-            return redirect('equipments')
-    else:
-        form = AddEquipmentForm()
-        return render(request, 'eqlog/addequipment.html', {"form": form})
+##            form.save()
+##            return redirect('equipments')
+##    else:
+##        form = AddEquipmentForm()
+##        return render(request, 'eqlog/addequipment.html', {"form": form})
 
 
 class AddEquipment(LoginRequiredMixin, DataMixin, CreateView):
@@ -214,11 +231,12 @@ class AddEquipment(LoginRequiredMixin, DataMixin, CreateView):
         c_def = self.get_user_context(title='Добавить оборудование')
         return {**context, **c_def}
 
-    #def form_valid(self, form):
-    #    equipment = form.save(commit=False)
-    #    equipment.user = User.objects.get(user=self.request.user)
-    #    equipment.save()
-    #    return redirect(reverse('equipments'))
+    def form_valid(self, form):
+        equipment = form.save(commit=False)
+        equipment.user = User.objects.get(user=request.user)
+        print(equipment.user)
+        equipment.save()
+        return redirect(reverse('equipments'))
 
 
 class UpdateEquipment(LoginRequiredMixin, DataMixin, UpdateView):
