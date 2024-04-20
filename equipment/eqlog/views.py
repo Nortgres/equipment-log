@@ -189,7 +189,7 @@ def generate_in(request):
         return JsonResponse({'inventory_number': id_number_new})
 
 
-@login_required
+#@login_required
 #def add_equipment(request):
 #    if request.method == 'POST':
 #        form = AddEquipmentForm(request.POST)
@@ -219,6 +219,7 @@ def generate_in(request):
 ##        return render(request, 'eqlog/addequipment.html', {"form": form})
 
 
+
 class AddEquipment(LoginRequiredMixin, DataMixin, CreateView):
     form_class = AddEquipmentForm
     template_name = 'eqlog/addequipment.html'
@@ -233,7 +234,7 @@ class AddEquipment(LoginRequiredMixin, DataMixin, CreateView):
 
     def form_valid(self, form):
         equipment = form.save(commit=False)
-        equipment.user = User.objects.get(user=request.user)
+        equipment.user = User.objects.get(username=self.request.user)
         print(equipment.user)
         equipment.save()
         return redirect(reverse('equipments'))
@@ -250,8 +251,9 @@ class UpdateEquipment(LoginRequiredMixin, DataMixin, UpdateView):
         c_def = self.get_user_context(title='Изменить данные о оборудовании')
         return {**context, **c_def}
 
-    #def form_valid(self, form):
-    #    equipment = form.save(commit=False)
-    #    equipment.user = User.objects.get(username=self.request.user)
-    #    equipment.save()
-    #    return redirect(reverse('equipments'))
+    def form_valid(self, form):
+        equipment = form.save(commit=False)
+        equipment.user = User.objects.get(username=self.request.user)
+        equipment.save()
+        return redirect(reverse('equipments'))
+
