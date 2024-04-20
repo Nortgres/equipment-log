@@ -8,7 +8,7 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from .filters import PersonFilter, EquipmentFilter
 from .forms import LoginUserForm, FilterPersonForm, AddPersonForm, AddEquipmentForm
-from .models import Equipment, Person, SettingID, Eqlog
+from .models import Equipment, Person, SettingID, EqlogEquipment, EqlogPerson
 from .utils import menu, DataMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models.signals import pre_save
@@ -17,11 +17,6 @@ from django.dispatch import receiver
 
 def about(request):
     return render(request, 'eqlog/about.html', {'menu': menu, 'title': 'О сайте'})
-
-
-def eqlog(request):
-    return render(request, 'eqlog/about.html', {'menu': menu, 'title': 'О сайте'})
-
 
 def home(request):
     return render(request, 'eqlog/index.html', {'menu': menu, 'title': 'Главная страница'})
@@ -58,11 +53,26 @@ def track_field_changes(sender, instance, user=None, **kwargs):
         old_instance = Equipment.objects.get(pk=instance.pk)
         for field in instance._meta.fields:
             if getattr(old_instance, field.attname) != getattr(instance, field.attname):
-                Eqlog.objects.create(
+                EqlogEquipment.objects.create(
                     field_name=field.name,
                     old_value=getattr(old_instance, field.attname),
                     new_value=getattr(instance, field.attname),
-                    id_equipments=instance.id_number,
+                    id_equipment=instance.id_number,
+                    user=instance.user
+                )
+
+
+@receiver(pre_save, sender=Person)
+def track_field_changes(sender, instance, user=None, **kwargs):
+    if instance.pk:
+        old_instance = Person.objects.get(pk=instance.pk)
+        for field in instance._meta.fields:
+            if getattr(old_instance, field.attname) != getattr(instance, field.attname):
+                EqlogPerson.objects.create(
+                    field_name=field.name,
+                    old_value=getattr(old_instance, field.attname),
+                    new_value=getattr(instance, field.attname),
+                    id_person=instance.id,
                     user=instance.user
                 )
 
@@ -242,10 +252,10 @@ class UpdateEquipment(LoginRequiredMixin, DataMixin, UpdateView):
         return redirect(reverse('equipments'))
 
 
-class Eqlogs(DataMixin, DetailView):
-    model = Eqlog
-    template_name = 'eqlog/eqlog.html'
-    context_object_name = 'el'
+class EqlogEquipments(DataMixin, ListView):
+    model = EqlogEquipment
+    template_name = 'eqlog/eqlogs.html'
+    context_object_name = 'elq'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)

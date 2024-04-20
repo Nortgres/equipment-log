@@ -21,7 +21,6 @@ class Equipment(models.Model):
     updated_at = models.DateTimeField(verbose_name='Дата изменения', auto_now=True)
     person = models.ForeignKey('Person', on_delete=models.PROTECT, verbose_name='Сотрудник', related_name='get_equipments')
     slug = AutoSlugField(populate_from='id_number', max_length=255, unique=True, db_index=True)
-    #slug = models.SlugField(verbose_name='URL', max_length=255, unique=True, db_index=True)
     user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.DO_NOTHING, null=True)
     objects = models.Manager()
 
@@ -55,7 +54,6 @@ class Person(models.Model):
     is_working = models.BooleanField(verbose_name='Работает', default=True)
     city = models.CharField(verbose_name='Город', max_length=50, default='Москва')
     slug = AutoSlugField(populate_from='last_name', max_length=255, unique=True, db_index=True)
-    #slug = models.SlugField(verbose_name='URL', max_length=255, unique=True, db_index=True)
     user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.DO_NOTHING, null=True)
     objects = models.Manager()
 
@@ -95,12 +93,19 @@ class SettingID(SingletonModel):
         verbose_name = 'Настройки инв.номера'
 
 
-class Eqlog(models.Model):
+class EqlogEquipment(models.Model):
     field_name = models.CharField(max_length=100)
     old_value = models.TextField(verbose_name='Старое значение')
     new_value = models.TextField(verbose_name='Новое значение')
     timestamp = models.DateTimeField(auto_now_add=True)
-    id_equipments = models.CharField(max_length=255)
-    #id_number = models.ForeignKey('Equipment', on_delete=models.PROTECT, verbose_name='Инвентарный номер',
-    #                              related_name='get_id_number')
+    id_equipment = models.CharField(max_length=255)
+    user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.DO_NOTHING, null=True)
+
+
+class EqlogPerson(models.Model):
+    field_name = models.CharField(max_length=100)
+    old_value = models.TextField(verbose_name='Старое значение')
+    new_value = models.TextField(verbose_name='Новое значение')
+    timestamp = models.DateTimeField(auto_now_add=True)
+    id_person = models.CharField(max_length=255)
     user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.DO_NOTHING, null=True)

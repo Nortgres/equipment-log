@@ -2,7 +2,7 @@ menu = [
         {'title': "Сотрудники", 'url_name': 'persons'},
         # {'title': "Добавить сотрудника", 'url_name': 'addperson'},
         {'title': "Оборудование", 'url_name': 'equipments'},
-        {'title': "Журнал изменений", 'url_name': 'eqlog'},
+        {'title': "Журнал изменений", 'url_name': 'eqlogs'},
         {'title': "О сайте", 'url_name': 'about'},
         ]
 
