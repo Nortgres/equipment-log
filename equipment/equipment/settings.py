@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'eqlog.apps.EqlogConfig',
     'django_filters',
     'solo.apps.SoloAppConfig',
+    'autoslug',
 ]
 
 MIDDLEWARE = [

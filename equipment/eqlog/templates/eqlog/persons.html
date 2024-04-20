@@ -31,6 +31,7 @@
                     <td>{{ p.jobing_at }}</td>
                     <td class="mark {% if p.remote %} mark_tick {% endif %}"></td>
                     <td class="mark {% if p.is_working %} mark_tick {% endif %}"></td>
+                    <td>{{ p.user }}</td>
                 </tr>
             {% endfor %}
         </table>

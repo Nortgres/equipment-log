@@ -2,11 +2,9 @@ from datetime import date
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
-from django.http import request
 from django.urls import reverse
 from solo.models import SingletonModel
-from django.db.models.signals import post_save
-from django.dispatch import receiver
+from autoslug import AutoSlugField
 
 
 class Equipment(models.Model):
@@ -22,7 +20,8 @@ class Equipment(models.Model):
     created_at = models.DateTimeField(verbose_name='Дата создания', auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name='Дата изменения', auto_now=True)
     person = models.ForeignKey('Person', on_delete=models.PROTECT, verbose_name='Сотрудник', related_name='get_equipments')
-    slug = models.SlugField(verbose_name='URL', max_length=255, unique=True, db_index=True)
+    slug = AutoSlugField(populate_from='id_number', max_length=255, unique=True, db_index=True)
+    #slug = models.SlugField(verbose_name='URL', max_length=255, unique=True, db_index=True)
     user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.DO_NOTHING, null=True)
     objects = models.Manager()
 
@@ -55,7 +54,8 @@ class Person(models.Model):
     remote = models.BooleanField(verbose_name='Удаленщик', default=False)
     is_working = models.BooleanField(verbose_name='Работает', default=True)
     city = models.CharField(verbose_name='Город', max_length=50, default='Москва')
-    slug = models.SlugField(verbose_name='URL', max_length=255, unique=True, db_index=True)
+    slug = AutoSlugField(populate_from='last_name', max_length=255, unique=True, db_index=True)
+    #slug = models.SlugField(verbose_name='URL', max_length=255, unique=True, db_index=True)
     user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.DO_NOTHING, null=True)
     objects = models.Manager()
 
@@ -91,8 +91,13 @@ class SettingID(SingletonModel):
     prefix = models.CharField(max_length=10, verbose_name='Префикс инвентарного номера', default='ГM-')
     id_l = models.IntegerField(verbose_name='Длина цифровой части инв.номера', default='6')
 
-    # def __str__(self):
-    #    return self.prefix
-
     class Meta:
         verbose_name = 'Настройки инв.номера'
+
+
+class Eqlog(models.Model):
+    old_value = models.TextField(verbose_name='Старое значение')
+    new_value = models.TextField(verbose_name='Новое значение')
+    id_number = models.ForeignKey('Equipment', on_delete=models.PROTECT, verbose_name='Инвентарный номер',
+                                  related_name='get_id_number')
+    user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.DO_NOTHING, null=True)

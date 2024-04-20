@@ -11,7 +11,6 @@ from .forms import LoginUserForm, FilterPersonForm, AddPersonForm, AddEquipmentF
 from .models import Equipment, Person, SettingID
 from .utils import menu, DataMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.decorators import login_required
 
 
 def about(request):
@@ -51,19 +50,7 @@ def logout_user(request):
     return redirect('login')
 
 
-def addperson(request):
-    if request.method == 'POST':
-        form = AddPersonForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('persons')
-    else:
-        form = AddPersonForm()
-
-    return render(request, 'eqlog/addperson.html', {'form': form})
-
-
-class PersonHome(DataMixin, ListView):
+class Persons(DataMixin, ListView):
     model = Person
     template_name = 'eqlog/persons.html'
     context_object_name = 'persons'
@@ -94,6 +81,12 @@ class AddPerson(LoginRequiredMixin, DataMixin, CreateView):
         c_def = self.get_user_context(title='Добавить сотрудника')
         return {**context, **c_def}
 
+    def form_valid(self, form):
+        person = form.save(commit=False)
+        person.user = User.objects.get(username=self.request.user)
+        person.save()
+        return redirect(reverse('persons'))
+
 
 class LoginUser(DataMixin, LoginView):
     form_class = LoginUserForm
@@ -118,7 +111,7 @@ class ShowPerson(DataMixin, DetailView):
         context = super().get_context_data(**kwargs)
         auth = self.request.user.is_authenticated
         c_def = self.get_user_context(title='Главная страница', auth=auth)
-        person: Person = context['object']
+        person: Persons = context['object']
         context.update({"equipments": person.get_equipments.all()})
         return {**context, **c_def}
 
@@ -133,6 +126,12 @@ class UpdatePerson(LoginRequiredMixin, DataMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(title='Изменить данные сотрудника')
         return {**context, **c_def}
+
+    def form_valid(self, form):
+        person = form.save(commit=False)
+        person.user = User.objects.get(username=self.request.user)
+        person.save()
+        return redirect(reverse('persons'))
 
 
 class Equipments(DataMixin, ListView):
@@ -189,37 +188,6 @@ def generate_in(request):
         return JsonResponse({'inventory_number': id_number_new})
 
 
-#@login_required
-#def add_equipment(request):
-#    if request.method == 'POST':
-#        form = AddEquipmentForm(request.POST)
-#        if form.is_valid():
-#            equipment = form.save(commit=False)
-#            print("User before assignment:", equipment.user)
-#            equipment.user = request.user
-#            print("User after assignment:", equipment.user)
-#            equipment.save()
-#            return redirect('equipments')
-#    else:
-#        form = AddEquipmentForm()
-
-#    return render(request, 'eqlog/addequipment.html', {"form": form})
-
-## def add_equipment(request):
-##    if request.method == 'POST':
-     #   data = request.POST.copy()
-     #   data.update({'user': request.user})
-##        form = AddEquipmentForm(request.POST, request.FILES)
-##        if form.is_valid():
-      #      form.user = request.user
-##            form.save()
-##            return redirect('equipments')
-##    else:
-##        form = AddEquipmentForm()
-##        return render(request, 'eqlog/addequipment.html', {"form": form})
-
-
-
 class AddEquipment(LoginRequiredMixin, DataMixin, CreateView):
     form_class = AddEquipmentForm
     template_name = 'eqlog/addequipment.html'
@@ -235,7 +203,6 @@ class AddEquipment(LoginRequiredMixin, DataMixin, CreateView):
     def form_valid(self, form):
         equipment = form.save(commit=False)
         equipment.user = User.objects.get(username=self.request.user)
-        print(equipment.user)
         equipment.save()
         return redirect(reverse('equipments'))
 

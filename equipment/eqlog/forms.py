@@ -25,17 +25,15 @@ class AddPersonForm(forms.ModelForm):
 
     class Meta:
         model = Person
-        fields = ['last_name', 'first_name', 'middle_name', 'department', 'job_title', 'jobing_at', 'remote', 'city',
-                  'slug']
+        fields = ['last_name', 'first_name', 'middle_name', 'department', 'job_title', 'jobing_at', 'remote', 'city']
 
 
 class AddEquipmentForm(forms.ModelForm):
 
     class Meta:
         model = Equipment
-        fields = ['type', 'model', 'serial_number', 'slug', 'sale_date', 'price', 'is_working', 'testing',
+        fields = ['type', 'model', 'serial_number', 'sale_date', 'price', 'is_working', 'testing',
                   'person', 'description', 'id_number']
         widgets = {
                     "id_number": TextInput(attrs={"id": "in_number"}),
-               #     "user": forms.HiddenInput(),
                 }
