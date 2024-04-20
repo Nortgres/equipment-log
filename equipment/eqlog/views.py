@@ -8,7 +8,7 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from .filters import PersonFilter, EquipmentFilter
 from .forms import LoginUserForm, FilterPersonForm, AddPersonForm, AddEquipmentForm
-from .models import Equipment, Person, SettingID
+from .models import Equipment, Person, SettingID, Eqlog
 from .utils import menu, DataMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -224,3 +224,14 @@ class UpdateEquipment(LoginRequiredMixin, DataMixin, UpdateView):
         equipment.save()
         return redirect(reverse('equipments'))
 
+
+class Eqlogs(DataMixin, DetailView):
+    model = Eqlog
+    template_name = 'eqlog/eqlog.html'
+    context_object_name = 'el'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        auth = self.request.user.is_authenticated
+        c_def = self.get_user_context(title='Главная страница', auth=auth)
+        return {**context, **c_def}
