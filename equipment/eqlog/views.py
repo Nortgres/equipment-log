@@ -11,6 +11,8 @@ from .forms import LoginUserForm, FilterPersonForm, AddPersonForm, AddEquipmentF
 from .models import Equipment, Person, SettingID, Eqlog
 from .utils import menu, DataMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 
 
 def about(request):
@@ -48,6 +50,21 @@ def show_equipment(request, equip_slug):
 def logout_user(request):
     logout(request)
     return redirect('login')
+
+
+@receiver(pre_save, sender=Equipment)
+def track_field_changes(sender, instance, user=None, **kwargs):
+    if instance.pk:
+        old_instance = Equipment.objects.get(pk=instance.pk)
+        for field in instance._meta.fields:
+            if getattr(old_instance, field.attname) != getattr(instance, field.attname):
+                Eqlog.objects.create(
+                    field_name=field.name,
+                    old_value=getattr(old_instance, field.attname),
+                    new_value=getattr(instance, field.attname),
+                    id_equipments=instance.id_number,
+                    user=instance.user
+                )
 
 
 class Persons(DataMixin, ListView):
