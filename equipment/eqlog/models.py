@@ -103,6 +103,7 @@ class EqlogEquipment(models.Model):
     new_value = models.TextField(verbose_name='Новое значение')
     timestamp = models.DateTimeField(auto_now_add=True)
     id_equipment = models.CharField(max_length=255)
+    equipment = models.ForeignKey('Equipment', on_delete=models.PROTECT, related_name='get_equipments')
     user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.DO_NOTHING, null=True)
 
 
