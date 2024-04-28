@@ -35,6 +35,10 @@ class Equipment(models.Model):
         id_numbers = list(Equipment.objects.values_list('id_number', flat=True))
         return id_numbers
 
+    def get_field_name(self):
+        print(self.model.verbose_name)
+        return self.model.verbose_name
+
     class Meta:
         verbose_name = 'Оборудование'
         verbose_name_plural = 'Оборудование'

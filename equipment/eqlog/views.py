@@ -18,6 +18,7 @@ from django.dispatch import receiver
 def about(request):
     return render(request, 'eqlog/about.html', {'menu': menu, 'title': 'О сайте'})
 
+
 def home(request):
     return render(request, 'eqlog/index.html', {'menu': menu, 'title': 'Главная страница'})
 
@@ -255,10 +256,12 @@ class UpdateEquipment(LoginRequiredMixin, DataMixin, UpdateView):
 class EqlogEquipments(DataMixin, ListView):
     model = EqlogEquipment
     template_name = 'eqlog/eqlogs.html'
-    context_object_name = 'elq'
+    context_object_name = 'log'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         auth = self.request.user.is_authenticated
         c_def = self.get_user_context(title='Главная страница', auth=auth)
+        #field_name: log.field_name = context['object']
+        #context.update({"equipments": person.get_equipments.all()})
         return {**context, **c_def}

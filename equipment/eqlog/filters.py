@@ -14,6 +14,7 @@ class PersonFilter(FilterSet):
         model = Person
         fields = ['last_name', 'first_name', 'department', 'job_title']
 
+
 class EquipmentFilter(FilterSet):
     start_date = DateFilter(field_name='sale_date', lookup_expr='gte')
     end_date = DateFilter(field_name='sale_date', lookup_expr='lte')

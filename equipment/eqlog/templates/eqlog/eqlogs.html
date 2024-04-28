@@ -4,12 +4,23 @@
         <table border="1">
             <caption>Журнал передачи оборудования</caption>
             <tr>
+                <th>Дата</th>
                 <th>Изменяемое поле</th>
+                <th>Изменяемое поле2</th>
+                <th>Старое значение</th>
+                <th>Новое значение</th>
+                <th>Кто изменил</th>
+
            </tr>
-            {% for e in eqlogs %}
-                <tr>
-                    <td>{{ e.field_name }}</td>
-                </tr>
+            {% for i in log %}
+                    <tr>
+                        <td>{{ i.timestamp }}</td>
+                        <td>{{ ddd }}</td>
+                        <td>{{ i.field_name }}</td>
+                        <td>{{ i.old_value }}</td>
+                        <td>{{ i.new_value }}</td>
+                        <td>{{ i.user_id }}</td>
+                    </tr>
             {% endfor %}
         </table>
 
