@@ -8,7 +8,7 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from .filters import PersonFilter, EquipmentFilter
 from .forms import LoginUserForm, FilterPersonForm, AddPersonForm, AddEquipmentForm
-from .models import Equipment, Person, SettingID, EqlogEquipment, EqlogPerson
+from .models import Equipment, Person, SettingID, Eqlog
 from .utils import menu, DataMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models.signals import pre_save
@@ -48,34 +48,36 @@ def logout_user(request):
     return redirect('login')
 
 
-@receiver(pre_save, sender=Equipment)
-def track_field_changes(sender, instance, user=None, **kwargs):
-    if instance.pk:
-        old_instance = Equipment.objects.get(pk=instance.pk)
-        for field in instance._meta.fields:
-            if getattr(old_instance, field.attname) != getattr(instance, field.attname):
-                EqlogEquipment.objects.create(
-                    field_name=field.name,
-                    old_value=getattr(old_instance, field.attname),
-                    new_value=getattr(instance, field.attname),
-                    id_equipment=instance.id_number,
-                    user=instance.user
-                )
+#@receiver(pre_save, sender=Equipment)
+# def log_save_data
+# def track_field_changes(sender, instance, user=None, **kwargs):
+#    if instance.pk:
+#        old_instance = Equipment.objects.get(pk=instance.pk)
+#        for field in instance._meta.fields:
+#            if getattr(old_instance, field.attname) != getattr(instance, field.attname):
+#                EqlogEquipment.objects.create(
+#                    field_name=field.name,
+#                    old_value=getattr(old_instance, field.attname),
+#                    new_value=getattr(instance, field.attname),
+#                    id_equipment=instance.id_number,
+#                    user=instance.user
+#                )
 
 
-@receiver(pre_save, sender=Person)
-def track_field_changes(sender, instance, user=None, **kwargs):
-    if instance.pk:
-        old_instance = Person.objects.get(pk=instance.pk)
-        for field in instance._meta.fields:
-            if getattr(old_instance, field.attname) != getattr(instance, field.attname):
-                EqlogPerson.objects.create(
-                    field_name=field.name,
-                    old_value=getattr(old_instance, field.attname),
-                    new_value=getattr(instance, field.attname),
-                    id_person=instance.id,
-                    user=instance.user
-                )
+#@receiver(pre_save, sender=Person)
+# def log_save_data
+# def track_field_changes(sender, instance, user=None, **kwargs):
+#    if instance.pk:
+#        old_instance = Person.objects.get(pk=instance.pk)
+#        for field in instance._meta.fields:
+#            if getattr(old_instance, field.attname) != getattr(instance, field.attname):
+#                EqlogPerson.objects.create(
+#                    field_name=field.name,
+#                    old_value=getattr(old_instance, field.attname),
+#                    new_value=getattr(instance, field.attname),
+#                    id_person=instance.id,
+#                    user=instance.user
+#                )
 
 
 class Persons(DataMixin, ListView):
@@ -253,15 +255,15 @@ class UpdateEquipment(LoginRequiredMixin, DataMixin, UpdateView):
         return redirect(reverse('equipments'))
 
 
-class EqlogEquipments(DataMixin, ListView):
-    model = EqlogEquipment
-    template_name = 'eqlog/eqlogs.html'
-    context_object_name = 'log'
+# class EqlogEquipments(DataMixin, ListView):
+#    model = EqlogEquipment
+#    template_name = 'eqlog/eqlogs.html'
+#    context_object_name = 'log'
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        auth = self.request.user.is_authenticated
-        c_def = self.get_user_context(title='Главная страница', auth=auth)
-        #field_name: log.field_name = context['object']
-        #context.update({"equipments": person.get_equipments.all()})
-        return {**context, **c_def}
+#    def get_context_data(self, *, object_list=None, **kwargs):
+#        context = super().get_context_data(**kwargs)
+#        auth = self.request.user.is_authenticated
+#        c_def = self.get_user_context(title='Главная страница', auth=auth)
+#        #field_name: log.field_name = context['object']
+#        #context.update({"equipments": person.get_equipments.all()})
+#        return {**context, **c_def}
