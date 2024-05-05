@@ -17,7 +17,7 @@ urlpatterns = [
     path('equipment/<slug:equip_slug>/', ShowEquipment.as_view(), name='equipment'),
     path('equipment/<int:pk>/update/', UpdateEquipment.as_view(), name='update_equipment'),
     path('generate_in/', generate_in, name='generate_in'),
-    #path('eqlogs/', EqlogEquipments.as_view(), name='eqlogs'),
+    path('eqlogs/', about, name='eqlogs'),
     path('login/', LoginUser.as_view(), name='login'),
     path('logout/', logout_user, name='logout'),
 ]

@@ -48,37 +48,50 @@ def logout_user(request):
     return redirect('login')
 
 
-#@receiver(pre_save, sender=Equipment)
-# def log_save_data
-# def track_field_changes(sender, instance, user=None, **kwargs):
-#    if instance.pk:
-#        old_instance = Equipment.objects.get(pk=instance.pk)
-#        for field in instance._meta.fields:
-#            if getattr(old_instance, field.attname) != getattr(instance, field.attname):
-#                EqlogEquipment.objects.create(
-#                    field_name=field.name,
-#                    old_value=getattr(old_instance, field.attname),
-#                    new_value=getattr(instance, field.attname),
-#                    id_equipment=instance.id_number,
-#                    user=instance.user
-#                )
+def log_save_data(**kwargs):
+    pass
 
 
-#@receiver(pre_save, sender=Person)
-# def log_save_data
-# def track_field_changes(sender, instance, user=None, **kwargs):
-#    if instance.pk:
-#        old_instance = Person.objects.get(pk=instance.pk)
-#        for field in instance._meta.fields:
-#            if getattr(old_instance, field.attname) != getattr(instance, field.attname):
-#                EqlogPerson.objects.create(
-#                    field_name=field.name,
-#                    old_value=getattr(old_instance, field.attname),
-#                    new_value=getattr(instance, field.attname),
-#                    id_person=instance.id,
-#                    user=instance.user
-#                )
+@receiver(pre_save, sender=Equipment)
+def track_field_changes(sender, instance, user=None, **kwargs):
+    if instance.pk:
+        old_instance = sender.objects.get(pk=instance.pk)
+        for field in instance._meta.fields:
+            if getattr(old_instance, field.attname) != getattr(instance, field.attname):
+                if field.name == 'person':
+                    old_val = old_instance.person
+                    new_val = instance.person
+                else:
+                    old_val = getattr(old_instance, field.attname)
+                    new_val = getattr(instance, field.attname)
+                Eqlog.objects.create(
+                    class_name=sender,
+                    attr_name=field.verbose_name,
+                    old_value=old_val,
+                    new_value=new_val,
+                    user=instance.user
+                )
 
+
+@receiver(pre_save, sender=Person)
+def track_field_changes(sender, instance, user=None, **kwargs):
+    if instance.pk:
+        old_instance = sender.objects.get(pk=instance.pk)
+        for field in instance._meta.fields:
+            if getattr(old_instance, field.attname) != getattr(instance, field.attname):
+                if field.name == 'department':
+                    old_val = old_instance.department
+                    new_val = instance.department
+                else:
+                    old_val = getattr(old_instance, field.attname)
+                    new_val = getattr(instance, field.attname)
+                Eqlog.objects.create(
+                    class_name=sender,
+                    attr_name=field.verbose_name,
+                    old_value=old_val,
+                    new_value=new_val,
+                    user=instance.user
+                )
 
 class Persons(DataMixin, ListView):
     model = Person
