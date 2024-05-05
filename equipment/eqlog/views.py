@@ -93,6 +93,7 @@ def track_field_changes(sender, instance, user=None, **kwargs):
                     user=instance.user
                 )
 
+
 class Persons(DataMixin, ListView):
     model = Person
     template_name = 'eqlog/persons.html'
