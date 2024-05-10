@@ -65,11 +65,12 @@ def track_field_changes(sender, instance, user=None, **kwargs):
                     old_val = getattr(old_instance, field.attname)
                     new_val = getattr(instance, field.attname)
                 Eqlog.objects.create(
-                    class_name=sender,
+                    class_name=sender.__name__,
                     attr_name=field.verbose_name,
                     old_value=old_val,
                     new_value=new_val,
-                    user=instance.user
+                    user=instance.user,
+                    logged_value=old_instance.id
                 )
 
 
@@ -86,11 +87,12 @@ def track_field_changes(sender, instance, user=None, **kwargs):
                     old_val = getattr(old_instance, field.attname)
                     new_val = getattr(instance, field.attname)
                 Eqlog.objects.create(
-                    class_name=sender,
+                    class_name=sender.__name__,
                     attr_name=field.verbose_name,
                     old_value=old_val,
                     new_value=new_val,
-                    user=instance.user
+                    user=instance.user,
+                    logged_value=old_instance.id
                 )
 
 
@@ -269,15 +271,16 @@ class UpdateEquipment(LoginRequiredMixin, DataMixin, UpdateView):
         return redirect(reverse('equipments'))
 
 
-# class EqlogEquipments(DataMixin, ListView):
-#    model = EqlogEquipment
-#    template_name = 'eqlog/eqlogs.html'
-#    context_object_name = 'log'
+class EqlogEquipments(DataMixin, ListView):
+    model = Eqlog
+    template_name = 'eqlog/eqlogs.html'
+    context_object_name = 'log'
 
-#    def get_context_data(self, *, object_list=None, **kwargs):
-#        context = super().get_context_data(**kwargs)
-#        auth = self.request.user.is_authenticated
-#        c_def = self.get_user_context(title='Главная страница', auth=auth)
-#        #field_name: log.field_name = context['object']
-#        #context.update({"equipments": person.get_equipments.all()})
-#        return {**context, **c_def}
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        auth = self.request.user.is_authenticated
+        c_def = self.get_user_context(title='Главная страница', auth=auth)
+        ### equipment: Equipments = context['object']
+        ### context.update({"logged_value": equipment.name})
+        return {**context, **c_def}

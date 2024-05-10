@@ -122,4 +122,5 @@ class Eqlog(models.Model):
     old_value = models.TextField(verbose_name='Старое значение')
     new_value = models.TextField(verbose_name='Новое значение')
     timestamp = models.DateTimeField(auto_now_add=True)
+    logged_value = models.TextField(verbose_name='Журналируемое значение')
     user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.DO_NOTHING, null=True)

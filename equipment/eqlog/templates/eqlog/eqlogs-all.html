@@ -5,23 +5,24 @@
             <caption>Журнал передачи оборудования</caption>
             <tr>
                 <th>Дата</th>
+                <th>Имя класса</th>
+                <th>Изменяемое поле</th>
                 <th>Старое значение</th>
                 <th>Новое значение</th>
                 <th>Кто изменил</th>
-                <th>Оборудование</th>
+                <th>ID</th>
 
            </tr>
             {% for i in log %}
-                {% if i.class_name == 'Equipment' and i.attr_name == 'Сотрудник' %}
                     <tr>
                         <td>{{ i.timestamp }}</td>
+                        <td>{{ i.class_name }}</td>
+                        <td>{{ i.attr_name }}</td>
                         <td>{{ i.old_value }}</td>
                         <td>{{ i.new_value }}</td>
-                        <td>{{ i.user }}</td>
-                        <td>{{ i.logged_value }}</td>
+                        <td>{{ i.user_id }}</td>
                         <td>{{ i.logged_value }}</td>
                     </tr>
-                {% endif %}
             {% endfor %}
         </table>
 

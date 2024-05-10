@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path
 
 from .views import about, login, logout, Persons, LoginUser, logout_user, ShowPerson, Equipments, \
-    ShowEquipment, AddPerson, home, UpdatePerson, AddEquipment, UpdateEquipment, generate_in
+    ShowEquipment, AddPerson, home, UpdatePerson, AddEquipment, UpdateEquipment, generate_in, EqlogEquipments
 
 urlpatterns = [
     path('', home, name='home'),
@@ -17,7 +17,7 @@ urlpatterns = [
     path('equipment/<slug:equip_slug>/', ShowEquipment.as_view(), name='equipment'),
     path('equipment/<int:pk>/update/', UpdateEquipment.as_view(), name='update_equipment'),
     path('generate_in/', generate_in, name='generate_in'),
-    path('eqlogs/', about, name='eqlogs'),
+    path('eqlogs/', EqlogEquipments.as_view(), name='eqlogs'),
     path('login/', LoginUser.as_view(), name='login'),
     path('logout/', logout_user, name='logout'),
 ]
