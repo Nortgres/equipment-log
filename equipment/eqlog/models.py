@@ -5,6 +5,7 @@ from django.db import models
 from django.urls import reverse
 from solo.models import SingletonModel
 from autoslug import AutoSlugField
+from django.shortcuts import redirect
 
 
 class Equipment(models.Model):
@@ -29,6 +30,10 @@ class Equipment(models.Model):
 
     def get_absolute_url(self):
         return reverse('equipment', kwargs={'equip_slug': self.slug})
+
+    def get_url_from_id(self):
+        equipment = Equipment.objects.get(id=self)
+        return redirect(equipment.get_absolute_url())
 
     @property
     def get_id_numbers(self):
@@ -95,25 +100,6 @@ class SettingID(SingletonModel):
 
     class Meta:
         verbose_name = 'Настройки инв.номера'
-
-
-# class EqlogEquipment(models.Model):
-#    field_name = models.CharField(max_length=100)
-#    old_value = models.TextField(verbose_name='Старое значение')
-#    new_value = models.TextField(verbose_name='Новое значение')
-#    timestamp = models.DateTimeField(auto_now_add=True)
-#    id_equipment = models.CharField(max_length=255)
-#    equipment = models.ForeignKey('Equipment', on_delete=models.PROTECT, related_name='get_equipments')
-#    user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.DO_NOTHING, null=True)
-
-
-# class EqlogPerson(models.Model):
-#    field_name = models.CharField(max_length=100)
-#    old_value = models.TextField(verbose_name='Старое значение')
-#    new_value = models.TextField(verbose_name='Новое значение')
-#    timestamp = models.DateTimeField(auto_now_add=True)
-#    id_person = models.CharField(max_length=255)
-#    user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.DO_NOTHING, null=True)
 
 
 class Eqlog(models.Model):

@@ -1,5 +1,5 @@
 from django_filters import FilterSet, DateFilter, CharFilter
-from .models import Person, Equipment
+from .models import Person, Equipment, Department
 
 
 class PersonFilter(FilterSet):
@@ -7,7 +7,7 @@ class PersonFilter(FilterSet):
     end_date = DateFilter(field_name='jobing_at', lookup_expr='lte')
     last_name = CharFilter(field_name='last_name', lookup_expr='contains', label='Фамилия')
     first_name = CharFilter(field_name='first_name', lookup_expr='contains', label='Имя')
-    department = CharFilter(field_name='department', lookup_expr='contains', label='Отдел')
+    department = Person.objects.filter(department__name='name')
     job_title = CharFilter(field_name='job_title', lookup_expr='contains', label='Должность')
 
     class Meta:

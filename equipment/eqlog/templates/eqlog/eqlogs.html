@@ -18,7 +18,7 @@
                         <td>{{ i.old_value }}</td>
                         <td>{{ i.new_value }}</td>
                         <td>{{ i.user }}</td>
-                        <td>{{ i.logged_value }}</td>
+                        <td><a href="{{ i.logged_value.equipments.get_url_from_id }}"> {{ i.logged_value }}</a></td>
                         <td>{{ i.logged_value }}</td>
                     </tr>
                 {% endif %}

@@ -22,7 +22,6 @@
                 <th>Рабочее</th>
                 <th>Доступно для тестирования</th>
                 <th>Ответственный</th>
-                <th>user(temp)</th>
            </tr>
             {% for e in equipments %}
                 <tr>
@@ -35,7 +34,6 @@
                     <td class="mark {% if e.is_working %} mark_tick {% endif %}"> </td>
                     <td class="mark {% if e.testing %} mark_tick {% endif %}"> </td>
                     <td><a href="{{ e.person.get_absolute_url }}"> {{ e.person }}</a></td>
-                    <td>{{ e.user }}</td>
                 </tr>
             {% endfor %}
         </table>
