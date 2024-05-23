@@ -34,6 +34,8 @@ class Equipment(models.Model):
     def get_url_from_id(self):
         equipment = Equipment.objects.get(id=self)
         return redirect(equipment.get_absolute_url())
+        #equipment = Equipment.objects.get(id=self)
+        #return redirect(equipment.get_absolute_url())
 
     @property
     def get_id_numbers(self):
