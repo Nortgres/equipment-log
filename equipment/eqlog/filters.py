@@ -1,4 +1,4 @@
-from django_filters import FilterSet, DateFilter, CharFilter
+from django_filters import FilterSet, DateFilter, CharFilter, BooleanFilter
 from .models import Person, Equipment, Department
 
 
@@ -9,10 +9,12 @@ class PersonFilter(FilterSet):
     first_name = CharFilter(field_name='first_name', lookup_expr='contains', label='Имя')
     department = Person.objects.filter(department__name='name')
     job_title = CharFilter(field_name='job_title', lookup_expr='contains', label='Должность')
+    remote = BooleanFilter(field_name='remote', label='Удаленщик')
+    is_working = BooleanFilter(field_name='is_working', label='Работает')
 
     class Meta:
         model = Person
-        fields = ['last_name', 'first_name', 'department', 'job_title']
+        fields = ['last_name', 'first_name', 'department', 'job_title', 'remote', 'is_working']
 
 
 class EquipmentFilter(FilterSet):
