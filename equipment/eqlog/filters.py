@@ -23,7 +23,7 @@ class EquipmentFilter(FilterSet):
     type = CharFilter(field_name='type', lookup_expr='contains', label='Тип оборудования')
     model = CharFilter(field_name='model', lookup_expr='contains', label='Модель')
     id_number = CharFilter(field_name='id_number', lookup_expr='contains', label='Инвентарный номер')
-    testing = CharFilter(field_name='testing', lookup_expr='contains', label='Доступно для тестирования')
+    testing = BooleanFilter(field_name='testing', label='Доступно для тестирования')
 
     class Meta:
         model = Equipment
