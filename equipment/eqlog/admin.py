@@ -28,4 +28,3 @@ class DepartmentAdmin(admin.ModelAdmin):
 
 
 admin.site.register(SettingID, SingletonModelAdmin)
-

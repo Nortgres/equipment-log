@@ -24,7 +24,7 @@
            </tr>
             {% for p in persons %}
                 <tr>
-                    <td><a href="{{ p.get_absolute_url }}"> {{ p.last_name }} {{ p.first_name }} {{ p.middle_name }}</a></td>
+                    <td><a href="{{ p.get_absolute_url }}"> {{ p.fio }}</a></td>
                     <td>{{ p.department }}</td>
                     <td>{{ p.job_title }}</td>
                     <td>{{ p.city }}</td>

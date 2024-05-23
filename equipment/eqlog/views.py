@@ -7,7 +7,7 @@ from django.http import HttpResponse, JsonResponse
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from .filters import PersonFilter, EquipmentFilter
-from .forms import LoginUserForm, FilterPersonForm, AddPersonForm, AddEquipmentForm
+from .forms import LoginUserForm, AddPersonForm, AddEquipmentForm
 from .models import Equipment, Person, SettingID, Eqlog
 from .utils import menu, DataMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -276,11 +276,8 @@ class EqlogEquipments(DataMixin, ListView):
     template_name = 'eqlog/eqlogs.html'
     context_object_name = 'log'
 
-
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         auth = self.request.user.is_authenticated
         c_def = self.get_user_context(title='Главная страница', auth=auth)
-        ### equipment: Equipments = context['object']
-        ### context.update({"logged_value": equipment.name})
         return {**context, **c_def}
