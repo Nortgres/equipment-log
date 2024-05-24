@@ -1,5 +1,5 @@
 from django_filters import FilterSet, DateFilter, CharFilter, BooleanFilter
-from .models import Person, Equipment, Department
+from .models import Person, Equipment
 
 
 class PersonFilter(FilterSet):

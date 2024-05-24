@@ -8,8 +8,8 @@ class PersonAdmin(admin.ModelAdmin):
     list_display = ('id', 'last_name', 'first_name', 'middle_name', 'department', 'job_title', 'created_at', 'remote',
                     'city', 'is_working', 'user', 'slug')
     list_display_links = ('id', 'last_name')
-    search_fields = ('last_name', 'first_name')
-    list_filter = ('is_working', 'remote', 'city', 'created_at',)
+    search_fields = ('last_name', 'first_name', 'middle_name', 'department__name', 'job_title', 'city')
+    list_filter = ('is_working', 'remote', 'created_at',)
 
 
 @admin.register(Equipment)
