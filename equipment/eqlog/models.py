@@ -31,12 +31,6 @@ class Equipment(models.Model):
     def get_absolute_url(self):
         return reverse('equipment', kwargs={'equip_slug': self.slug})
 
-    def get_url_from_id(self):
-        equipment = Equipment.objects.get(id=self)
-        return redirect(equipment.get_absolute_url())
-        #equipment = Equipment.objects.get(id=self)
-        #return redirect(equipment.get_absolute_url())
-
     @property
     def get_id_numbers(self):
         id_numbers = list(Equipment.objects.values_list('id_number', flat=True))
@@ -112,3 +106,8 @@ class Eqlog(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     logged_value = models.TextField(verbose_name='Журналируемое значение')
     user = models.ForeignKey(User, verbose_name='Пользователь', on_delete=models.DO_NOTHING, null=True)
+
+    def get_equipment(self):
+        equipment = Equipment.objects.get(id=self.logged_value)
+        return equipment
+

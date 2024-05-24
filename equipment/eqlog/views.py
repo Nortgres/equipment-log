@@ -280,20 +280,11 @@ class EqlogEquipments(DataMixin, ListView):
         context = super().get_context_data(**kwargs)
         auth = self.request.user.is_authenticated
         c_def = self.get_user_context(title='Главная страница', auth=auth)
-        eqlog_equipments = self.get_slug_for_equipment()
-        context['eqlog_equipments'] = eqlog_equipments
         return {**context, **c_def}
 
     def get_queryset(self):
         queryset = super().get_queryset()
         equipment_ids = Equipment.objects.values_list('id', flat=True)
         filtered_queryset = queryset.filter(logged_value__in=equipment_ids)
+        print(f'print1 {equipment_ids}')
         return filtered_queryset
-
-    def get_slug_for_equipment(self):
-        print(self.__dict__)
-        equipment = Equipment.objects.get(id=int(self.equipment_ids))
-        return equipment.slug
-        #equipment_slugs = Equipment.objects.values_list('slug', flat=True)
-        #return equipment_slugs
-

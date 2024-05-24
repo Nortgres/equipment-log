@@ -18,8 +18,7 @@
                         <td>{{ i.old_value }}</td>
                         <td>{{ i.new_value }}</td>
                         <td>{{ i.user }}</td>
-                        <td><a href="{% url 'equipment' equip_slug=eqlog_equipments.get_slug_for_equipment(i.logged_value) %}"> {{ i.logged_value }}</a></td>
-                        <td><a href="{% url 'equipment' equip_slug='a000003' %}"> {{ i.logged_value }}</a></td>
+                        <td><a href="{% url 'equipment' equip_slug=i.get_equipment.slug %}"> {{ i.get_equipment.model }}</a></td>
                     </tr>
                 {% endif %}
             {% endfor %}
