@@ -1,7 +1,6 @@
-from django.contrib import admin
 from django.urls import path
 
-from .views import about, login, logout, Persons, LoginUser, logout_user, ShowPerson, Equipments, \
+from .views import about, Persons, LoginUser, logout_user, ShowPerson, Equipments, \
     ShowEquipment, AddPerson, home, UpdatePerson, AddEquipment, UpdateEquipment, generate_in, EqlogEquipments
 
 urlpatterns = [
